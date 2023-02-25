@@ -1,7 +1,8 @@
 import React from "react";
 import { Provider } from "react-redux";
-import Main from "./components/Main";
-import store from './redux';
+import Main from "./src/Main";
+import store from "./src/redux";
+
 const App = () => {
   return (
     <>
@@ -9,7 +10,7 @@ const App = () => {
         <Main />
       </Provider>
     </>
-  )
-}
+  );
+};
 
 export default App;

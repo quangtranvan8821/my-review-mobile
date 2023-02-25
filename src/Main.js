@@ -1,6 +1,7 @@
 import { SafeAreaView, StyleSheet } from "react-native";
-import ClockApp from "./ClockApp";
+import ClockApp from "./components/ClockApp";
 import React from "react";
+import PostItem from "./components/post/PostItem";
 
 export default Main = () => {
   const styles = StyleSheet.create({
@@ -11,9 +12,11 @@ export default Main = () => {
       justifyContent: "center",
     },
   });
+
   return (
     <SafeAreaView style={styles.container}>
-      <ClockApp />
+      {/* <ClockApp /> */}
+      <PostItem />
     </SafeAreaView>
   );
 };
