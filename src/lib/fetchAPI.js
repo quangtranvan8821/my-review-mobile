@@ -1,13 +1,11 @@
 import SInfo from "react-native-sensitive-info";
-import axios from 'axios';
-
+import axiosInstance from "../utils/axiosInstance";
 export const fetchApi = async (url, method = 'get', body, headers) => {
-    let token = await SInfo.getItem('token', {
-        sharedPreferencesName: 'myReviewTokenPreferences',
-        keychainService:'myReview'
-    })
-
     try {
+        let token = await SInfo.getItem('token', {
+            sharedPreferencesName: 'myReviewTokenPreferences',
+            keychainService:'myReview'
+        })
         let opts = {
             method,
             url: `${process.env.MY_REVIEW_SERVER.trim()}${url}`,
@@ -15,7 +13,6 @@ export const fetchApi = async (url, method = 'get', body, headers) => {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'token': token,
             }
         }
         if (headers) {
@@ -32,7 +29,7 @@ export const fetchApi = async (url, method = 'get', body, headers) => {
         } else {
             opts.data = body;
         }
-        let fetchdata = await axios(opts);
+        let fetchdata = await axiosInstance(opts);
         if (fetchdata.data.code !== 200) {
             return fetchdata.data;
         }
@@ -44,11 +41,11 @@ export const fetchApi = async (url, method = 'get', body, headers) => {
 };
 
 export const fetchApiUpload = async (url, method = 'get', body) => {
-    let token = await SInfo.getItem('token', {
-        sharedPreferencesName: 'myReviewTokenPreferences',
-        keychainService:'myReview'
-    })
     try {
+        let token = await SInfo.getItem('token', {
+            sharedPreferencesName: 'myReviewTokenPreferences',
+            keychainService:'myReview'
+        })
         let opts = {
             method,
             url: `${process.env.MY_REVIEW_SERVER.trim()}${url}`,
@@ -56,7 +53,6 @@ export const fetchApiUpload = async (url, method = 'get', body) => {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'multipart/form-data',
-                'token': token,
             }
         }
         if (method === 'get') {
@@ -64,7 +60,7 @@ export const fetchApiUpload = async (url, method = 'get', body) => {
         } else {
             opts.data = body;
         }
-        let fetchdata = await axios(opts);
+        let fetchdata = await axiosInstance(opts);
         if (fetchdata.data.code !== 200) {
             return fetchdata.data;
         }

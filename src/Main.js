@@ -1,20 +1,14 @@
-import { SafeAreaView, StyleSheet } from "react-native";
+import { SafeAreaView,Text} from 'react-native';
 import ClockApp from "./components/ClockApp";
 import React from "react";
 import PostItem from "./components/post/PostItem";
 
 export default Main = () => {
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: "#fff",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-  });
+
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView className="flex-1 items-center justify-center bg-neutral-600">
+      <Text className="text-3xl font-bold underline">hihii</Text>
       {/* <ClockApp /> */}
       <PostItem />
     </SafeAreaView>
