@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { actionLogin } from "./action";
+import SInfo from "react-native-sensitive-info";
+
 export const AuthReducer = createSlice({
   name: "auth",
   initialState: {
@@ -10,12 +12,16 @@ export const AuthReducer = createSlice({
     hasErr: false,
   },
     reducer: {
-        logout: (state) => {
+        logout: async (state) => {
             state.token = null;
             state.info = null;
             state.listPermission = [];
             state.isLoading = false;
             state.hasErr = false;
+           await SInfo.set('token',null, {
+                sharedPreferencesName: 'myReviewTokenPreferences',
+                keychainService:'myReview'
+            })
       }
   },
   extraReducers: (action) => {
@@ -23,12 +29,17 @@ export const AuthReducer = createSlice({
       state.isLoading = true;
       state.hasErr = false;
     });
-    action.addCase(actionLogin.fulfilled, (state, action) => {
+    action.addCase(actionLogin.fulfilled,async (state, action) => {
       state.token = action.token;
       state.info = action.info;
       state.listPermission = action.listPermission;
       state.isLoading = false;
-      state.hasErr = false;
+    state.hasErr = false;
+    await SInfo.set('token',action.token, {
+            sharedPreferencesName: 'myReviewTokenPreferences',
+            keychainService:'myReview'
+        })
+        
     });
     action.addCase(actionLogin.rejected, (state) => {
       state.isLoading = false;
