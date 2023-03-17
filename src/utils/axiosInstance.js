@@ -1,4 +1,4 @@
-
+import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 const API_URL = process.env.MY_REVIEW_SERVER;
 const axiosInstance = axios.create({
@@ -13,10 +13,8 @@ const axiosInstance = axios.create({
 
 
 axiosInstance.interceptors.request.use(async function (config) {
-    config.headers.token =  await SInfo.getItem('token', {
-        sharedPreferencesName: 'myReviewTokenPreferences',
-        keychainService:'myReview'
-    })
+    
+    config.headers.token = await SecureStore.getItemAsync('token')
     return config;
 }, function (error) {
     console.log(error);

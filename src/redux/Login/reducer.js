@@ -1,14 +1,15 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
-import SInfo from "react-native-sensitive-info";
+import * as SecureStore from 'expo-secure-store';
 import { LOGIN } from "./const";
-import fetchAPI  from '../../lib/fetchAPI'
+import { fetchApi } from "../../lib/FetchAPI";
 export const login = createAsyncThunk(
     `auth/${LOGIN}`,
-    async ({body}) => {
-        const data = await fetchAPI(`${process.env.MY_REVIEW_SERVER}/login`,'post',body);
+  async (body) => {
+        const data = await fetchApi(`${process.env.MY_REVIEW_SERVER}/login`,'post',body);
+         console.log(hehe,data); 
         const json = await data.json();
         if (data.status < 200 || data.status >= 300) {
-            return console.log('hih', data.msg);
+            return console.log('fasle');
           }
         return json;
     }
@@ -16,7 +17,7 @@ export const login = createAsyncThunk(
 export const AuthReducer = createSlice({
   name: "auth",
   initialState: {
-    token: null,
+    token: 'hii',
     info: null,
     listPermission: [],
     isLoading: false,
@@ -29,10 +30,8 @@ export const AuthReducer = createSlice({
             state.listPermission = [];
             state.isLoading = false;
             state.hasErr = false;
-           await SInfo.set('token',null, {
-                sharedPreferencesName: 'myReviewTokenPreferences',
-                keychainService:'myReview'
-            })
+            await SecureStore.setItemAsync('token',null)
+
       }
   },
   extraReducers: (builder) => {
@@ -46,10 +45,7 @@ export const AuthReducer = createSlice({
       state.listPermission = action.listPermission;
       state.isLoading = false;
     state.hasErr = false;
-    await SInfo.set('token',action.token, {
-            sharedPreferencesName: 'myReviewTokenPreferences',
-            keychainService:'myReview'
-        })
+    await SecureStore.setItemAsync('token',action.token)
         
     });
     builder.addCase(login.rejected, (state) => {
@@ -59,9 +55,9 @@ export const AuthReducer = createSlice({
   },
 })
 export const { logout } = AuthReducer.actions
-export const isLoading = state => state.auth.isLoading
-export const hasErr = state => state.auth.hasErr
-export const token = state => state.auth.token
-export const info = state => state.auth.info
-export const listPermission = state => state.auth.listPermission
+export const isloading = (state) => state.AuthReducer.isLoading
+export const haserr = (state) => state.AuthReducer.hasErr
+export const token = (state) => state.AuthReducer.token
+export const info = (state) => state.AuthReducer.info
+export const listpermission = (state) => state.AuthReduceruth.listPermission
 export default AuthReducer.reducer

@@ -1,14 +1,10 @@
-import SInfo from "react-native-sensitive-info";
 import axiosInstance from "../utils/axiosInstance";
 export const fetchApi = async (url, method = 'get', body, headers) => {
     try {
-        let token = await SInfo.getItem('token', {
-            sharedPreferencesName: 'myReviewTokenPreferences',
-            keychainService:'myReview'
-        })
+        console.log('co run')
         let opts = {
             method,
-            url: `${process.env.MY_REVIEW_SERVER.trim()}${url}`,
+            url: `${process.env.MY_REVIEW_SERVER}${url}`,
             timeout: 1 * 1000 * 60,//1phut     
             headers: {
                 Accept: 'application/json',
@@ -35,20 +31,16 @@ export const fetchApi = async (url, method = 'get', body, headers) => {
         }
         return fetchdata.data;
     } catch (error) {
-        console.log(error);
+        console.log(error,'haha');
         return
     }
 };
 
 export const fetchApiUpload = async (url, method = 'get', body) => {
     try {
-        let token = await SInfo.getItem('token', {
-            sharedPreferencesName: 'myReviewTokenPreferences',
-            keychainService:'myReview'
-        })
         let opts = {
             method,
-            url: `${process.env.MY_REVIEW_SERVER.trim()}${url}`,
+            url: `${process.env.MY_REVIEW_SERVER}${url}`,
             timeout: 1 * 1000 * 60,//1phut     
             headers: {
                 Accept: 'application/json',
@@ -66,7 +58,6 @@ export const fetchApiUpload = async (url, method = 'get', body) => {
         }
         return fetchdata.data;
     } catch (error) {
-        console.log(error);
-        return ;
+        return  error;
     }
 };
