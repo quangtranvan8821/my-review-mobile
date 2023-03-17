@@ -1,7 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { actionLogin } from "./action";
+import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import SInfo from "react-native-sensitive-info";
-
+import { LOGIN } from "./const";
+import fetchAPI  from '../../lib/fetchAPI'
+export const login = createAsyncThunk(
+    `auth/${LOGIN}`,
+    async ({body}) => {
+        const data = await fetchAPI(`${process.env.MY_REVIEW_SERVER}/login`,'post',body);
+        const json = await data.json();
+        if (data.status < 200 || data.status >= 300) {
+            return console.log('hih', data.msg);
+          }
+        return json;
+    }
+);
 export const AuthReducer = createSlice({
   name: "auth",
   initialState: {
@@ -24,12 +35,12 @@ export const AuthReducer = createSlice({
             })
       }
   },
-  extraReducers: (action) => {
-    action.addCase(actionLogin.pending, (state) => {
+  extraReducers: (builder) => {
+    builder.addCase(login.pending, (state) => {
       state.isLoading = true;
       state.hasErr = false;
     });
-    action.addCase(actionLogin.fulfilled,async (state, action) => {
+    builder.addCase(login.fulfilled,async (state, action) => {
       state.token = action.token;
       state.info = action.info;
       state.listPermission = action.listPermission;
@@ -41,7 +52,7 @@ export const AuthReducer = createSlice({
         })
         
     });
-    action.addCase(actionLogin.rejected, (state) => {
+    builder.addCase(login.rejected, (state) => {
       state.isLoading = false;
       state.hasErr = true;
     });
