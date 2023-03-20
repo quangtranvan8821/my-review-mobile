@@ -1,18 +1,15 @@
-import { useEffect, useLayoutEffect } from "react";
-import { View, Text, Button, Animated, Easing, Alert } from "react-native";
+import { useLayoutEffect } from "react";
+import { View, Text, Button, Animated, Easing, Alert} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { login,token, isloading,haserr } from "../redux/Login/reducer";
 import LoaderAnimation from '../lib/LoaderAnimation'
-import { fetchApi } from "../lib/FetchAPI";
 const LayoutLoader = () => {
   let isLoading = useSelector(isloading)
   let hasErr = useSelector(haserr)
   const dispatch = useDispatch()
-  console.log('kaka', hasErr)
-  Alert.alert('loi','deo co api nen loi roi')
   if(hasErr){
-    
-    }
+    Alert.alert('loi','deo co api nen loi roi')
+  }
     useLayoutEffect(() => {
       dispatch(login())
     },[])

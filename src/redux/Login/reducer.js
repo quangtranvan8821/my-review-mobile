@@ -5,12 +5,9 @@ import { fetchApi } from "../../lib/FetchAPI";
 export const login = createAsyncThunk(
     `auth/${LOGIN}`,
   async (body) => {
-        const data = await fetchApi(`${process.env.MY_REVIEW_SERVER}/login`,'post',body);
-         console.log(hehe,data); 
+    const data = await fetchApi(`/auth/login`, 'post', body); 
+    console.log('sfs', data);
         const json = await data.json();
-        if (data.status < 200 || data.status >= 300) {
-            return console.log('fasle');
-          }
         return json;
     }
 );

@@ -1,10 +1,12 @@
 import axiosInstance from "../utils/axiosInstance";
+import {MY_REVIEW_SERVER} from "@env"
+
 export const fetchApi = async (url, method = 'get', body, headers) => {
     try {
         console.log('co run')
         let opts = {
             method,
-            url: `${process.env.MY_REVIEW_SERVER}${url}`,
+            url: `${MY_REVIEW_SERVER}${url}`,
             timeout: 1 * 1000 * 60,//1phut     
             headers: {
                 Accept: 'application/json',
@@ -31,8 +33,7 @@ export const fetchApi = async (url, method = 'get', body, headers) => {
         }
         return fetchdata.data;
     } catch (error) {
-        console.log(error,'haha');
-        return
+        return error
     }
 };
 
