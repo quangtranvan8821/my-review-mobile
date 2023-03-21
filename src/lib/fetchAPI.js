@@ -3,7 +3,6 @@ import {MY_REVIEW_SERVER} from "@env"
 
 export const fetchApi = async (url, method = 'get', body, headers) => {
     try {
-        console.log('co run')
         let opts = {
             method,
             url: `${MY_REVIEW_SERVER}${url}`,

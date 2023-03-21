@@ -6,7 +6,6 @@ export const login = createAsyncThunk(
     `auth/${LOGIN}`,
   async (body) => {
     const data = await fetchApi(`/auth/login`, 'post', body); 
-    console.log('sfs', data);
         const json = await data.json();
         return json;
     }
@@ -14,7 +13,7 @@ export const login = createAsyncThunk(
 export const AuthReducer = createSlice({
   name: "auth",
   initialState: {
-    token: 'hii',
+    token: null,
     info: null,
     listPermission: [],
     isLoading: false,
