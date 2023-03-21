@@ -41,7 +41,9 @@ const SignIn = ({ navigation }) => {
           id
           onChange={setUser}
           className="bg-slate-300 w-full mb-2"
-          value={user}
+            value={user}
+            placeholder="Enter username"
+
         />
         </View>
 
@@ -50,7 +52,13 @@ const SignIn = ({ navigation }) => {
           onChange={setPsw}
           className="bg-slate-200 w-full"
           value={psw}
-          textContentType="password"
+            textContentType="newPassword"
+            name="password"
+            placeholder="Enter password"
+            autoCapitalize="none"
+            autoCorrect={false}
+            secureTextEntry
+            enablesReturnKeyAutomatically
         />
         </View>
       </View>
