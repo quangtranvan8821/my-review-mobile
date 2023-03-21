@@ -1,5 +1,5 @@
 import { View, Text, Button, TextInput,Alert,SafeAreaView } from "react-native";
-import { useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { isloading, haserr, login, token } from "../../redux/Login/reducer";
 import { useNavigation } from "@react-navigation/native";
@@ -9,25 +9,27 @@ import * as Store from 'expo-secure-store'
 const SignIn = ({ navigation }) => {
   const [user, setUser] = useState("");
   const [psw, setPsw] = useState("");
-  let Token = useSelector(token)
+  let userToken = useSelector(token)
   let isLoading = useSelector(isloading)
+  let hasErr = useSelector(haserr)
   const dispatch = useDispatch();
+  useEffect(() => {
+    console.log(hasErr)
+    if (userToken) {
+      Store.setItemAsync('token',userToken)
+     navigation.replace('home')
+    }
+    if (hasErr) {
+      Alert.alert('Loi', 'thong tin tai khoan khong chinh xac')
+}
+  },[userToken,dispatch,hasErr])
+  const submit = async () => {
+    let dataFetch = {
+      userId: user,
+      password: psw,
+    }
+    dispatch(login(dataFetch));
 
-  const submit = () => {
-    let data = {
-      user: user,
-      psw: psw,
-    };
-    dispatch(login(data));
-    if (Token) {
-      console.log('haha',Token)
-        navigation.replace('home')
-    } 
-    if (haserr) {
-      setTimeout(() => {
-        Alert.alert('Loi', 'thong tin tai khoan khong chinh xac')
-      },500)
-  }
   };
 
   return (
@@ -39,17 +41,17 @@ const SignIn = ({ navigation }) => {
         <View>
         <TextInput
           id
-          onChange={setUser}
+          onChangeText={e => setUser(e)}
           className="bg-slate-300 w-full mb-2"
             value={user}
             placeholder="Enter username"
-
+            textContentType="username"
         />
         </View>
 
         <View>
         <TextInput
-          onChange={setPsw}
+          onChangeText={e => setPsw(e)}
           className="bg-slate-200 w-full"
           value={psw}
             textContentType="newPassword"
@@ -59,6 +61,7 @@ const SignIn = ({ navigation }) => {
             autoCorrect={false}
             secureTextEntry
             enablesReturnKeyAutomatically
+
         />
         </View>
       </View>
@@ -69,11 +72,11 @@ const SignIn = ({ navigation }) => {
       >
         chưa có tài khoản?
       </Text>
-      <Button onPress={submit} className="p-4" title="SignIn" />
+      <Button onPress={e => submit()} className="p-4" title="SignIn" />
       {isLoading && <View className='w-2/6 h-2/6 absolute top-2/3'>
             <LoaderAnimation/>
        </View>}
     </SafeAreaView>
   );
 };
-export default SignIn;
+export default memo(SignIn);

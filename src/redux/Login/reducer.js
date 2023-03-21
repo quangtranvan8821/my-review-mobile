@@ -1,13 +1,15 @@
-import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice,createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
 import * as SecureStore from 'expo-secure-store';
 import { LOGIN } from "./const";
 import { fetchApi } from "../../lib/FetchAPI";
 export const login = createAsyncThunk(
     `auth/${LOGIN}`,
   async (body) => {
-    const data = await fetchApi(`/auth/login`, 'post', body); 
-        const json = await data.json();
-        return json;
+    const res = await fetchApi(`/auth/login`, 'post', body); 
+    if (res.status == 200) {
+      return res.data
+    }
+    return res.json()
     }
 );
 export const AuthReducer = createSlice({
@@ -35,14 +37,12 @@ export const AuthReducer = createSlice({
       state.isLoading = true;
       state.hasErr = false;
     });
-    builder.addCase(login.fulfilled,async (state, action) => {
-      state.token = action.token;
+    builder.addCase(login.fulfilled,(state,action) => {
+      state.token = action.payload.token;
       state.info = action.info;
       state.listPermission = action.listPermission;
       state.isLoading = false;
-    state.hasErr = false;
-    await SecureStore.setItemAsync('token',action.token)
-        
+      state.hasErr = false;  
     });
     builder.addCase(login.rejected, (state) => {
       state.isLoading = false;
@@ -51,9 +51,9 @@ export const AuthReducer = createSlice({
   },
 })
 export const { logout } = AuthReducer.actions
-export const isloading = (state) => state.AuthReducer.isLoading
-export const haserr = (state) => state.AuthReducer.hasErr
-export const token = (state) => state.AuthReducer.token
+export const isloading = (state) => state.authReducer.isLoading
+export const haserr = (state) => state.authReducer.hasErr
+export const token = (state) => state.authReducer.token
 export const info = (state) => state.AuthReducer.info
 export const listpermission = (state) => state.AuthReduceruth.listPermission
 export default AuthReducer.reducer

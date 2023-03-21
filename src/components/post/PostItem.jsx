@@ -1,6 +1,12 @@
 import { Button, Text, View } from "react-native"
-
+import * as Store from 'expo-secure-store'
+import { useEffect } from "react"
 const PostItem = () => {
+    useEffect(() => {
+        (async () => {
+            let a = await Store.getItemAsync('token')
+        })()
+    },[])
     return (
         <View className="flex-1">
             {/* Header detail */}

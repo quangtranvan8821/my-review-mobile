@@ -19,6 +19,7 @@ export default Main = () => {
     const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     try {
       // custom logic
+      await SecureStore.deleteItemAsync('token')
       await sleep(800);
       const token = await SecureStore.getItemAsync('token')
       setUserToken(token);
@@ -30,7 +31,6 @@ export default Main = () => {
   useEffect(() => {
     getUserToken()
   }, [])
-  console.log(userToken)
   if (isLoading) {
   return  <LayoutLoader/>
   }
