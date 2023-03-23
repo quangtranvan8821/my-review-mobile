@@ -1,12 +1,24 @@
 import { Button, Text, View } from "react-native"
 import * as Store from 'expo-secure-store'
 import { useEffect } from "react"
-const PostItem = () => {
-    useEffect(() => {
-        (async () => {
-            let a = await Store.getItemAsync('token')
-        })()
-    },[])
+import { useDispatch ,useSelector} from "react-redux"
+import { logout,token } from "../../redux/Auth/reducer"
+const PostItem = ({navigation}) => {
+    const dispatch = useDispatch()
+    const Token = useSelector(token)
+    // useEffect(() => {
+    //     (async () => {
+    //         const a = await Store.getItemAsync('token')
+    //         console.log(a,'gg', Token)
+    //     })
+    // }, [dispatch,Token])
+    const signOut = async () => {
+        await dispatch(logout())
+        let check = await Store.setItemAsync('token',Token)
+        if (!check) {
+            navigation.replace('login')
+        }
+    }
     return (
         <View className="flex-1">
             {/* Header detail */}
@@ -15,11 +27,14 @@ const PostItem = () => {
             </View>
 
             {/* Content */}
-            <View></View>
+            <View>
+
+                <Button title="logout" onPress={signOut}/>
+            </View>
 
             {/* Actions */}
             <View className="flex justify-between gap-1">
-                <Button title="Like"></Button>
+                <Button title="Like" onPress={signOut}></Button>
                 <Button className="mt-1" title="Press me"/>
             </View>
         </View>

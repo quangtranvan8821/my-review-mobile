@@ -1,7 +1,7 @@
 import { View, Text, Button, TextInput,Alert,SafeAreaView } from "react-native";
 import { memo, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { isloading, haserr, login, token } from "../../redux/Login/reducer";
+import { isloading, haserr, login, token } from "../../redux/Auth/reducer";
 import { useNavigation } from "@react-navigation/native";
 import LoaderAnimation from '../../lib/LoaderAnimation'
 import PostItem from "../post/PostItem";
