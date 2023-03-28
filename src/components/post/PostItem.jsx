@@ -1,17 +1,15 @@
-import { Button, Text, View } from "react-native"
+import { Button, Text, View ,SafeAreaView,StatusBar} from "react-native"
 import * as Store from 'expo-secure-store'
 import { useEffect } from "react"
 import { useDispatch ,useSelector} from "react-redux"
 import { logout,token } from "../../redux/Auth/reducer"
+
 const PostItem = ({navigation}) => {
     const dispatch = useDispatch()
+
     const Token = useSelector(token)
-    // useEffect(() => {
-    //     (async () => {
-    //         const a = await Store.getItemAsync('token')
-    //         console.log(a,'gg', Token)
-    //     })
-    // }, [dispatch,Token])
+
+// dang xuat
     const signOut = async () => {
         await dispatch(logout())
         let check = await Store.setItemAsync('token',Token)
@@ -20,7 +18,8 @@ const PostItem = ({navigation}) => {
         }
     }
     return (
-        <View className="flex-1">
+        <SafeAreaView className="flex-1">
+            <StatusBar/>
             {/* Header detail */}
             <View>
                 <Text className="text-2xl font-bold">Some fucking text</Text>
@@ -37,7 +36,7 @@ const PostItem = ({navigation}) => {
                 <Button title="Like" onPress={signOut}></Button>
                 <Button className="mt-1" title="Press me"/>
             </View>
-        </View>
+        </SafeAreaView>
     )
 }
 

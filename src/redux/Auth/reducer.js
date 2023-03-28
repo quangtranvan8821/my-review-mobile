@@ -16,12 +16,22 @@ export const login = createAsyncThunk(
   async (body) => {
     const res = await fetchApi(`/auth/login`, 'post', body); 
     if (res.status == 200) {
-      return res.data
+      return  await res.data
     }
-    return res.json()
+    return await res.json()
     }
 );
-
+//logup action 
+export const logup = createAsyncThunk(
+  `auth/logup`,
+  async (body) => {
+  const res = await fetchApi(`/auth/logup`, 'post', body); 
+  if (res.status == 200) {
+    return await res.data
+  }
+  return await res.json()
+  }
+);
 //slice
 export const AuthReducer = createSlice({
   name: "auth",
@@ -39,16 +49,35 @@ export const AuthReducer = createSlice({
     // xu li login thanh cong
     builder.addCase(login.fulfilled,(state,action) => {
       state.token = action.payload.token;
-      state.info = action.info;
-      state.listPermission = action.listPermission;
+      state.info = action.payload.info;
+      state.listPermission = action.payload.listPermission;
       state.isLoading = false;
       state.hasErr = false;  
     });
-    // khi login xay ra loi
+    // khi logup xay ra loi
     builder.addCase(login.rejected, (state) => {
       state.isLoading = false;
       state.hasErr = true;
     });
+
+    builder.addCase(logup.pending, (state) => {
+      state.isLoading = true;
+      state.hasErr = false;
+    });
+    // xu li logup thanh cong
+    builder.addCase(logup.fulfilled,(state,action) => {
+      state.token = action.payload.token;
+      state.info = action.payload.info;
+      state.listPermission = action.payload.listPermission;
+      state.isLoading = false;
+      state.hasErr = false;  
+    });
+    // khi logup xay ra loi
+    builder.addCase(logup.rejected, (state) => {
+      state.isLoading = false;
+      state.hasErr = true;
+    });
+
   },
 })
 export const { logout } = AuthReducer.actions
