@@ -8,12 +8,11 @@ import {
 } from "react-native";
 import { memo, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { isloading, haserr, logup, token } from "../../redux/Auth/reducer";
+import { isloading, haserr, logup, token } from "../../redux/auth/reducer";
 import { useNavigation } from "@react-navigation/native";
 import LoaderAnimation from "../../lib/LoaderAnimation";
-import PostItem from "../post/PostItem";
 import * as Store from "expo-secure-store";
-import { validate } from "react-native-web/dist/cjs/exports/StyleSheet/validate";
+
 const SignUp = ({ navigation }) => {
   const [user, setUser] = useState("");
   const [psw, setPsw] = useState("");

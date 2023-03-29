@@ -1,9 +1,9 @@
 import { SafeAreaView,Text,} from 'react-native';
 import React, { useEffect } from "react";
 import LayoutLoader from './components/LayoutLoader';
-import SignIn from './components/Auth/SignIn';
-import SignUp from './components/Auth/SignUp';
-import PostItem from './components/post/PostItem';
+import SignIn from './components/auth/SignIn';
+import SignUp from './components/auth/SignUp';
+import Router from './components/home'
 import * as SecureStore from 'expo-secure-store';
 
 import { NavigationContainer } from '@react-navigation/native'
@@ -42,7 +42,7 @@ export default Main = () => {
        
                 <Stack.Screen
               name='home'
-              component={PostItem}
+              component={Router}
               options={{
                 headerShown: false
               }}

@@ -2,9 +2,9 @@ import { Button, Text, View ,SafeAreaView,StatusBar} from "react-native"
 import * as Store from 'expo-secure-store'
 import { useEffect } from "react"
 import { useDispatch ,useSelector} from "react-redux"
-import { logout,token } from "../../redux/Auth/reducer"
+import { logout,token } from "../../../redux/auth/reducer"
 
-const PostItem = ({navigation}) => {
+const Profile = ({navigation}) => {
     const dispatch = useDispatch()
 
     const Token = useSelector(token)
@@ -40,4 +40,4 @@ const PostItem = ({navigation}) => {
     )
 }
 
-export default PostItem
+export default Profile

@@ -8,10 +8,9 @@ import {
 } from "react-native";
 import { memo, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { isloading, haserr, login, token } from "../../redux/Auth/reducer";
+import { isloading, haserr, login, token } from "../../redux/auth/reducer";
 import { useNavigation } from "@react-navigation/native";
 import LoaderAnimation from "../../lib/LoaderAnimation";
-import PostItem from "../post/PostItem";
 import * as Store from "expo-secure-store";
 const SignIn = ({ navigation }) => {
   const [user, setUser] = useState("");
