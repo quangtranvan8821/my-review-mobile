@@ -5,6 +5,7 @@ import {
   TextInput,
   Alert,
   SafeAreaView,
+  LayoutAnimation
 } from "react-native";
 import { memo, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -27,6 +28,8 @@ const SignIn = ({ navigation }) => {
    let res = await dispatch(login(dataFetch))
     if (res.payload) {
       await Store.setItemAsync("token", res.payload.token);
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOutr);
+
       navigation.replace("home");
     }
     else {

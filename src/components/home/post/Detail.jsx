@@ -1,12 +1,13 @@
 import { View, Text, TouchableOpacity, Image,ScrollView } from 'react-native'
-import {memo} from 'react'
+import {memo, useEffect} from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import Comment from "./Comment.jsx"
 const Detail =({route,navigation}) =>{
-console.log(route.name,'haha')
+  // console.log(, 'haha')
+
 const PostUser = route.params
   return(
-     <View style={{ height: 'auto', width: '100%', padding: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#DDDDDD', marginBottom: 10, borderRadius:8 }}>
+     <ScrollView style={{ height: 'auto', width: '100%', padding: 10, display: 'flex', backgroundColor: '#DDDDDD', marginBottom: 10, borderRadius:8 }}>
      
 
       <Text>{PostUser?.content || "VIET"}</Text>
@@ -22,13 +23,13 @@ const PostUser = route.params
 
         </View>
       </View>
-       <ScrollView style={{width:"100%"}}>
+       <View style={{width:"100%"}}>
           <Comment/>
           <Comment/>
          <Comment/>
           <Comment/>
-       </ScrollView>
-    </View>
+       </View>
+    </ScrollView>
   )
 }
 export default memo(Detail)

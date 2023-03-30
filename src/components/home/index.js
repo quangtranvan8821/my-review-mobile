@@ -24,7 +24,7 @@ const Router = () =>{
     <Tab.Navigator
         screenOptions={{
           tabBarHideOnKeyboard:true,
-        headerStyle: {
+          headerStyle: {
           backgroundColor: 'purple',
          
         },
@@ -40,7 +40,7 @@ const Router = () =>{
         <Tab.Screen
           name="My Review"
           component={Post}
-          options={{tabBarLabel: '' ,tabBarIcon : ({color,size})=>(
+          options={{tabBarLabel: '',headerShown:false ,tabBarIcon : ({color,size})=>(
             <Icon name="home" size={size} color={color} />
           ),
           }}
