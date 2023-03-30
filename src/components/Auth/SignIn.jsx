@@ -28,7 +28,7 @@ const SignIn = ({ navigation }) => {
    let res = await dispatch(login(dataFetch))
     if (res.payload) {
       await Store.setItemAsync("token", res.payload.token);
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOutr);
+      // LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOutr);
 
       navigation.replace("home");
     }
