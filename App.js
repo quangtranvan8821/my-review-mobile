@@ -2,11 +2,16 @@ import React, { useEffect, useLayoutEffect } from "react";
 import { Provider } from "react-redux";
 import Main from "./src/Main";
 import store from "./src/redux";
-import * as SecureStore from "expo-secure-store";
-import axios from "axios";
+import { UIManager, Platform } from "react-native";
 
 import { withExpoSnack } from "nativewind";
 const App = () => {
+  if (
+    Platform.OS === "android" &&
+    UIManager.setLayoutAnimationEnabledExperimental
+  ) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
   return (
     <>
       <Provider store={store}>

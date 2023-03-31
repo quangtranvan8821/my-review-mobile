@@ -1,9 +1,9 @@
 import axiosInstance from "../utils/axiosInstance";
 import {MY_REVIEW_SERVER} from "@env"
 
+
 export const fetchApi = async (url, method = 'get', body, headers) => {
     try {
-        console.log('co run')
         let opts = {
             method,
             url: `${MY_REVIEW_SERVER}${url}`,
@@ -28,10 +28,8 @@ export const fetchApi = async (url, method = 'get', body, headers) => {
             opts.data = body;
         }
         let fetchdata = await axiosInstance(opts);
-        if (fetchdata.data.code !== 200) {
-            return fetchdata.data;
-        }
-        return fetchdata.data;
+      
+        return fetchdata;
     } catch (error) {
         return error
     }
@@ -41,7 +39,7 @@ export const fetchApiUpload = async (url, method = 'get', body) => {
     try {
         let opts = {
             method,
-            url: `${process.env.MY_REVIEW_SERVER}${url}`,
+            url: `${MY_REVIEW_SERVER}${url}`,
             timeout: 1 * 1000 * 60,//1phut     
             headers: {
                 Accept: 'application/json',
@@ -54,10 +52,8 @@ export const fetchApiUpload = async (url, method = 'get', body) => {
             opts.data = body;
         }
         let fetchdata = await axiosInstance(opts);
-        if (fetchdata.data.code !== 200) {
-            return fetchdata.data;
-        }
-        return fetchdata.data;
+
+        return fetchdata;
     } catch (error) {
         return  error;
     }
