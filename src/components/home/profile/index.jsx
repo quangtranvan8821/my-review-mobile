@@ -2,7 +2,7 @@ import { Button, Text, View, SafeAreaView, StatusBar } from "react-native";
 import * as Store from "expo-secure-store";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logout, token } from "../../../redux/auth/reducer";
+import { logout, token } from "../../../redux/Auth/reducer";
 
 const Profile = ({ navigation }) => {
   const dispatch = useDispatch();
