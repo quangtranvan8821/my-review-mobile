@@ -1,27 +1,26 @@
-import * as SecureStore from 'expo-secure-store';
-import axios from 'axios';
-import {MY_REVIEW_SERVER} from "@env"
-
+import * as SecureStore from "expo-secure-store";
+import axios from "axios";
+import { API_HOST } from "@env";
 
 const axiosInstance = axios.create({
-    baseURL: MY_REVIEW_SERVER,
-    timeout: 5000,
-    headers: {
-        "Content-Type": "application/json",
-        accept: "application/json",
-    },
+  baseURL: API_HOST,
+  timeout: 5000,
+  headers: {
+    "Content-Type": "application/json",
+    accept: "application/json",
+  },
 });
 
-
-axiosInstance.interceptors.request.use(async function (config) { 
-    const token = await SecureStore.getItemAsync('token')
+axiosInstance.interceptors.request.use(
+  async function (config) {
+    const token = await SecureStore.getItemAsync("token");
     config.headers.Authorization = token;
-    console.log(config)
+    console.log(config);
     return config;
-   
-}, function (error) {
+  },
+  function (error) {
     return Promise.reject(error);
-});
-
+  }
+);
 
 export default axiosInstance;

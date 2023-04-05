@@ -15,3 +15,4 @@ web-build/
 
 #yarn
 yarn-error.log
+.env
