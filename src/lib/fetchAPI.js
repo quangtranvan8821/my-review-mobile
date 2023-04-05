@@ -6,12 +6,9 @@ export const fetchApi = async (url, method = "get", body, headers) => {
     let opts = {
       method,
       url: `${API_HOST}${url}`,
-      timeout: 1 * 1000 * 60, //1phut
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
+      Accept: "application/json",
     };
+
     if (headers) {
       opts = {
         ...opts,
@@ -27,11 +24,9 @@ export const fetchApi = async (url, method = "get", body, headers) => {
       opts.data = body;
     }
     let fetchdata = await axiosInstance(opts);
-    console.log(fetchdata);
 
     return fetchdata;
   } catch (error) {
-    console.log(error);
     return error;
   }
 };
@@ -41,7 +36,7 @@ export const fetchApiUpload = async (url, method = "get", body) => {
     let opts = {
       method,
       url: `${API_HOST}${url}`,
-      timeout: 1 * 1000 * 60, //1phut
+      timeout: 60 * 1000,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",
