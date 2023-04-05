@@ -41,8 +41,10 @@ const CreatePost = ({ navigation }) => {
               value={text}
               onChangeText={onChangeText}
               placeholder="how do you feel?"
-              multiline
-              inputAccessoryViewID ={inputAccessoryViewID} 
+             multiline
+             autoFocus
+             inputAccessoryViewID={inputAccessoryViewID} 
+            
 
             />
             <Ionicons style={{ width: '10%', height: 50 }} name="images-outline"  size={30} color='#fff' onPress={e => onPicker({setImage})}></Ionicons>

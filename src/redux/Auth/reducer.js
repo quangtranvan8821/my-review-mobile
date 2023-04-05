@@ -5,8 +5,6 @@ import { fetchApi } from "../../lib/FetchAPI";
 //init state auth
 const initialState = {
   token: null,
-  info: null,
-  listPermission: [],
   isLoading: false,
   hasErr: false,
 }
@@ -14,8 +12,9 @@ const initialState = {
 export const login = createAsyncThunk(
     `auth/${LOGIN}`,
   async (body) => {
-    const res = await fetchApi(`/auth/login`, 'post', body); 
+    const res = await fetchApi(`/api/v1/auth/local/signin`, 'post', body); 
     if (res.status == 200) {
+
       return  await res.data
     }
     return await res.json()
@@ -25,8 +24,8 @@ export const login = createAsyncThunk(
 export const logup = createAsyncThunk(
   `auth/logup`,
   async (body) => {
-  const res = await fetchApi(`/auth/logup`, 'post', body); 
-  if (res.status == 200) {
+  const res = await fetchApi(`/api/v1/auth/local/signup`, 'post', body); 
+    if (res.status == 200) {
     return await res.data
   }
   return await res.json()
@@ -47,10 +46,9 @@ export const AuthReducer = createSlice({
       state.hasErr = false;
     });
     // xu li login thanh cong
-    builder.addCase(login.fulfilled,(state,action) => {
-      state.token = action.payload.token;
-      state.info = action.payload.info;
-      state.listPermission = action.payload.listPermission;
+    builder.addCase(login.fulfilled, (state, action) => {
+      console.log(action.payload.access_token,'haha')
+      state.token = action.payload.access_token;
       state.isLoading = false;
       state.hasErr = false;  
     });
@@ -84,6 +82,5 @@ export const { logout } = AuthReducer.actions
 export const isloading = (state) => state.authReducer.isLoading
 export const haserr = (state) => state.authReducer.hasErr
 export const token = (state) => state.authReducer.token
-export const info = (state) => state.authReducer.info
-export const listpermission = (state) => state.authReduceruth.listPermission
+
 export default AuthReducer.reducer

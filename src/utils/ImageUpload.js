@@ -5,9 +5,9 @@ export const onPicker = async ({ setImage }) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaType: ImagePicker.MediaTypeOptions.Images,
       allowsMultipleSelection: true,
+      selectionLimit:10,
       quality: 1,
     })
-      console.log(result)
      if (!result.canceled) {
          result.assets.map((value) => {
             arr.push(value.uri)

@@ -35,7 +35,8 @@ const Router = () =>{
         },
         tabBarStyle:{backgroundColor:"#fff",},
         tabBarActiveTintColor: 'purple',
-              }}
+       }}
+       initialRouteName='My Review'
       >
         <Tab.Screen
           name="My Review"

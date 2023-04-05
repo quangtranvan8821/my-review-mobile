@@ -9,7 +9,7 @@ import {
   StatusBar
 } from "react-native";
 import PostItem from "./PostItem.jsx";
-import React from "react";
+import { useCallback,useEffect,useState} from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import Detail from "./Detail";
 import { Ionicons } from '@expo/vector-icons'; 
@@ -17,9 +17,9 @@ import { Ionicons } from '@expo/vector-icons';
 
 const ScrollHome = ({ navigation }) => {
 
-  const [refreshing, setRefreshing] = React.useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const onRefresh = React.useCallback(() => {
+  const onRefresh = useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
       Alert.alert("error!", "chua co api", [
@@ -33,6 +33,7 @@ const ScrollHome = ({ navigation }) => {
       setRefreshing(false);
     }, 2000);
   }, []);
+
   function goDetail(params) {
     console.log("hmm", params);
     navigation.navigate("Detail", params);
