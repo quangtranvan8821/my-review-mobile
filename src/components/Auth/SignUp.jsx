@@ -25,7 +25,7 @@ const SignUp = ({ navigation }) => {
 
   const submit = async () => {
     let dataFetch = {
-      userId: user,
+      email: user,
       password: psw,
     };
     let res = await dispatch(logup(dataFetch));
