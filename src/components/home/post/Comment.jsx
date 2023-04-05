@@ -11,7 +11,7 @@ const Comment = ({id}) =>{
         />
         
       </View>
-      <View style={ {maxWidth:'90%', backgroundColor:'#fff',padding:5,borderRadius:4,marginTop:10,marginLeft:4}}>
+      <View style={ { width:'88%', maxWidth:'90%', backgroundColor:'#fff',padding:5,borderRadius:4,marginTop:10,marginLeft:4}}>
       <Text style={{ fontSize: 16, marginLeft: 7 }}>sang</Text>
       <Text style={{fontSize: 14, marginLeft: 7}}>qua hayjdklfjds fjkldjflkdsjf lksdjfkldsjfdk fjldkjf clskjfdlskjf !!!</Text>
       </View>

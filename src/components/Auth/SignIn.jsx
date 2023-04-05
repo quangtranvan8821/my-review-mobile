@@ -21,14 +21,14 @@ const SignIn = ({ navigation }) => {
 
   const submit = async () => {
     let dataFetch = {
-      userId: user,
+      email: user,
       password: psw,
     };
 
    let res = await dispatch(login(dataFetch))
     if (res.payload) {
-      await Store.setItemAsync("token", res.payload.token);
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOutr);
+      await Store.setItemAsync("token", res.payload.access_token);
+      // LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOutr);
 
       navigation.replace("home");
     }

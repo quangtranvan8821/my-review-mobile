@@ -35,7 +35,8 @@ const Router = () =>{
         },
         tabBarStyle:{backgroundColor:"#fff",},
         tabBarActiveTintColor: 'purple',
-              }}
+       }}
+       initialRouteName='My Review'
       >
         <Tab.Screen
           name="My Review"
@@ -54,7 +55,7 @@ const Router = () =>{
           }}
         />
          <Tab.Screen
-          name="Create post "
+          name="Create post"
           component={CreatePost}
           options={({navigation})=>({ tabBarLabel: '',headerLeft:()=>(<View><Ionicons onPress={e => onClose({navigation})} name="close-outline" size = {26} color='#fff'/></View>),headerRight:()=>(<View><Text>POST</Text></View>) ,headerTitleAlign: 'center',tabBarIcon : ({color,size})=>(
             <Icon name="add-circle-outline" size={35} color={color} />

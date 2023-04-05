@@ -15,6 +15,7 @@ axiosInstance.interceptors.request.use(
   async function (config) {
     const token = await SecureStore.getItemAsync("token");
     config.headers.Authorization = token;
+    console.log(config);
     return config;
   },
   function (error) {
