@@ -1,68 +1,57 @@
-import {
-  View,
-  Text,
-  Button,
-  TextInput,
-  Alert,
-  SafeAreaView,
-  Image,
-  TouchableOpacity,
-} from "react-native";
-import { memo, useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { isloading, haserr, logup, token } from "../../redux/auth/reducer";
-import { useNavigation } from "@react-navigation/native";
-import LoaderAnimation from "../../lib/LoaderAnimation";
-import * as Store from "expo-secure-store";
+import { View, Text, Button, TextInput, Alert, SafeAreaView, Image, TouchableOpacity } from 'react-native'
+import { memo, useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { isloading, haserr, logup, token } from '../../redux/auth/reducer'
+import { useNavigation } from '@react-navigation/native'
+import LoaderAnimation from '../../lib/LoaderAnimation'
+import * as Store from 'expo-secure-store'
 
 const SignUp = ({ navigation }) => {
-  const [user, setUser] = useState("");
-  const [psw, setPsw] = useState("");
-  const [repsw, setRePsw] = useState("");
-  const [err, setErr] = useState("");
+  const [user, setUser] = useState('')
+  const [psw, setPsw] = useState('')
+  const [repsw, setRePsw] = useState('')
+  const [err, setErr] = useState('')
 
-  let isLoading = useSelector(isloading);
+  let isLoading = useSelector(isloading)
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   const submit = async () => {
     let dataFetch = {
       email: user,
       password: psw,
-    };
-
-    let res = await dispatch(logup(dataFetch));
-    if (res.payload) {
-      await Store.setItemAsync("token", res.payload.token);
-      navigation.replace("home");
-    } else {
-      Alert.alert("Lỗi", "Thông tin mật khẩu hoặc tài khoản không chính xác");
     }
-  };
+
+    let res = await dispatch(logup(dataFetch))
+    if (res.payload) {
+      await Store.setItemAsync('token', res.payload.token)
+      navigation.replace('home')
+    } else {
+      Alert.alert('Lỗi', 'Thông tin mật khẩu hoặc tài khoản không chính xác')
+    }
+  }
 
   const validate = (e, obj, set) => {
     try {
-      if (obj !== e && e.trim() !== "" && obj !== "") {
-        setErr("mật khẩu không trùng khớp");
+      if (obj !== e && e.trim() !== '' && obj !== '') {
+        setErr('mật khẩu không trùng khớp')
       } else {
-        setErr("");
+        setErr('')
       }
     } catch (error) {
-      setErr(error);
+      setErr(error)
     }
-    set(e);
-  };
+    set(e)
+  }
 
   return (
     <SafeAreaView className="h-full">
       <View>
-        <Image source={require("../../../assets/images/Vectors.png")} />
+        <Image source={require('../../../assets/images/Vectors.png')} />
       </View>
 
       <View className="h-2/5/5 w-full flex justify-center items-center">
-        <Text className="text-4xl text-color-primary font-bold mb-2 tracking-[2px] ">
-          SignUp
-        </Text>
+        <Text className="text-4xl text-color-primary font-bold mb-2 tracking-[2px] ">SignUp</Text>
 
         <View>
           <View className="ml-5 mr-5 border-2 w-4/5 h-14 mt-5 mb-5 flex-row items-center border-purple rounded-3xl border-color-primary">
@@ -122,15 +111,12 @@ const SignUp = ({ navigation }) => {
 
         <View className="w-4/5 h-14 flex flex-row justify-end items-center mt-5">
           <Text className="text-sm">Already have an account?</Text>
-          <Text
-            className="ml-2 mr-2 text-color-primary"
-            onPress={(e) => navigation.replace("login")}
-          >
+          <Text className="ml-2 mr-2 text-color-primary" onPress={(e) => navigation.replace('login')}>
             SignIn
           </Text>
         </View>
       </View>
     </SafeAreaView>
-  );
-};
-export default memo(SignUp);
+  )
+}
+export default memo(SignUp)

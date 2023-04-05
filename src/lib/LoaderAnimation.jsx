@@ -1,25 +1,25 @@
-import { Animated, Easing } from "react-native";
-import { useEffect } from "react";
-import Svg, { Path } from "react-native-svg";
+import { Animated, Easing } from 'react-native'
+import { useEffect } from 'react'
+import Svg, { Path } from 'react-native-svg'
 
 const LoaderAnimation = () => {
-  let spinValue = new Animated.Value(0);
+  let spinValue = new Animated.Value(0)
   const spin = spinValue.interpolate({
     inputRange: [0, 1],
-    outputRange: ["0deg", "360deg"],
-  });
+    outputRange: ['0deg', '360deg'],
+  })
   const spinAnimation = () => {
-    spinValue.setValue(0);
+    spinValue.setValue(0)
     Animated.timing(spinValue, {
       toValue: 1,
       duration: 2500,
       easing: Easing.linear,
       useNativeDriver: true,
-    }).start(() => spinAnimation());
-  };
+    }).start(() => spinAnimation())
+  }
   useEffect(() => {
-    spinAnimation();
-  }, []);
+    spinAnimation()
+  }, [])
   return (
     <Animated.View
       style={{ transform: [{ rotate: spin }] }}
@@ -32,6 +32,6 @@ const LoaderAnimation = () => {
         />
       </Svg>
     </Animated.View>
-  );
-};
-export default LoaderAnimation;
+  )
+}
+export default LoaderAnimation
