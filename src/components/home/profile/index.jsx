@@ -3,12 +3,12 @@ import * as Store from 'expo-secure-store'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout, token } from '../../../redux/auth/reducer'
-
+import { profile } from '../../../redux/profile/reducer'
 const Profile = ({ navigation }) => {
   const dispatch = useDispatch()
 
   const Token = useSelector(token)
-
+  const profileUser = useSelector(profile)
   // dang xuat
   const signOut = async () => {
     await dispatch(logout())
@@ -17,6 +17,7 @@ const Profile = ({ navigation }) => {
       navigation.replace('login')
     }
   }
+  console.log('hihi', profileUser)
   return (
     <SafeAreaView className="flex-1">
       <StatusBar />

@@ -5,6 +5,7 @@ import { isloading, haserr, logup, token } from '../../redux/auth/reducer'
 import { useNavigation } from '@react-navigation/native'
 import LoaderAnimation from '../../lib/LoaderAnimation'
 import * as Store from 'expo-secure-store'
+import { getProfile } from '../../redux/profile/reducer'
 
 const SignUp = ({ navigation }) => {
   const [user, setUser] = useState('')
@@ -25,6 +26,8 @@ const SignUp = ({ navigation }) => {
     let res = await dispatch(logup(dataFetch))
     if (res.payload) {
       await Store.setItemAsync('token', res.payload.token)
+      await dispatch(getProfile())
+
       navigation.replace('home')
     } else {
       Alert.alert('Lỗi', 'Thông tin mật khẩu hoặc tài khoản không chính xác')

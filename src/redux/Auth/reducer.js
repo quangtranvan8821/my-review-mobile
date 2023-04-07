@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { LOGIN } from './const'
 import { fetchApi } from '../../lib/fetchAPI'
 
 //init state auth
@@ -10,11 +9,12 @@ const initialState = {
 }
 
 //action login
-export const login = createAsyncThunk(`auth/${LOGIN}`, async (body) => {
+export const login = createAsyncThunk(`auth/login`, async (body) => {
   const res = await fetchApi(`/api/v1/auth/local/signin`, 'post', body)
   if (res.status == 200) {
     return await res.data
   }
+  console.log(res)
   return await res.json()
 })
 
