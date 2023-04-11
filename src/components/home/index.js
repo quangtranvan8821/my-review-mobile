@@ -88,6 +88,7 @@ const Router = () => {
         name="User"
         component={Profile}
         options={{
+          headerShown:false,
           tabBarLabel: '',
           tabBarIcon: ({ color, size }) => <Icon name="person-circle-outline" size={30} color={color} />,
         }}
