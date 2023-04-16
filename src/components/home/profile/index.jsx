@@ -23,7 +23,7 @@ const Profile = ({ navigation }) => {
 
       {/* Header detail */}
       <View>
-        <Text className="text-2xl font-bold">Some fucking text</Text>
+        <Text className="text-2xl font-bold">User Profile Screen</Text>
       </View>
 
       {/* Content */}

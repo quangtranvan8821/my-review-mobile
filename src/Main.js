@@ -1,10 +1,11 @@
 import { SafeAreaView, Text } from 'react-native'
 import React, { useEffect } from 'react'
+import * as SecureStore from 'expo-secure-store'
+
 import LayoutLoader from './components/LayoutLoader'
 import SignIn from './components/auth/SignIn'
 import SignUp from './components/auth/SignUp'
 import Router from './components/home'
-import * as SecureStore from 'expo-secure-store'
 
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
@@ -14,6 +15,7 @@ export default Main = () => {
   const [isLoading, setIsLoading] = React.useState(true)
   const [userToken, setUserToken] = React.useState(null)
 
+  //get token user
   const getUserToken = async () => {
     // testing purposes
     const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
@@ -31,9 +33,11 @@ export default Main = () => {
   useEffect(() => {
     getUserToken()
   }, [])
+
   if (isLoading) {
     return <LayoutLoader />
   }
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName={userToken ? 'home' : 'login'}>

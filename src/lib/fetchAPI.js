@@ -23,10 +23,11 @@ export const fetchApi = async (url, method = 'get', body, headers) => {
     } else {
       opts.data = body
     }
-    let fetchdata = await axiosInstance(opts)
 
+    let fetchdata = await axiosInstance(opts)
     return fetchdata
   } catch (error) {
+    console.log(error)
     return error
   }
 }

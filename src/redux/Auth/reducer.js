@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { LOGIN } from './const'
 import { fetchApi } from '../../lib/fetchAPI'
+import axiosInstance from '../../utils/axiosInstance'
 
 //init state auth
 const initialState = {
@@ -28,14 +29,15 @@ export const logup = createAsyncThunk(`auth/logup`, async (body) => {
 })
 
 //slice
-export const AuthReducer = createSlice({
+const AuthReducer = createSlice({
   name: 'auth',
   initialState,
   reducers: {
     logout: () => initialState,
   },
+
   extraReducers: (builder) => {
-    //khi login dang xu li
+    // khi login dang xu li
     builder.addCase(login.pending, (state) => {
       state.isLoading = true
       state.hasErr = false
@@ -46,12 +48,13 @@ export const AuthReducer = createSlice({
       state.isLoading = false
       state.hasErr = false
     })
-    // khi logup xay ra loi
+    // khi login xay ra loi
     builder.addCase(login.rejected, (state) => {
       state.isLoading = false
       state.hasErr = true
     })
 
+    //khi logup dang xu li
     builder.addCase(logup.pending, (state) => {
       state.isLoading = true
       state.hasErr = false
@@ -71,7 +74,9 @@ export const AuthReducer = createSlice({
 })
 
 export const { logout } = AuthReducer.actions
+
 export const isloading = (state) => state.authReducer.isLoading
 export const haserr = (state) => state.authReducer.hasErr
 export const token = (state) => state.authReducer.token
+
 export default AuthReducer.reducer

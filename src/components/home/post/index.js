@@ -2,58 +2,62 @@ import { Button, View, ScrollView, RefreshControl, Alert, Text, Image, StatusBar
 import PostItem from './PostItem.jsx'
 import { useCallback, useEffect, useState } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import Detail from './Detail'
+import Detail from './Detail.jsx'
 import { Ionicons } from '@expo/vector-icons'
+import { useSelector, useDispatch } from 'react-redux'
+import { loadPosts, postData } from '../../../redux/post/postReducer.js'
+import * as Store from 'expo-secure-store'
+import token from '../../../redux/auth/reducer.js'
 
 const ScrollHome = ({ navigation }) => {
+  const dispatch = useDispatch()
+
+  const posts = useSelector(postData)
+
+  console.log(posts)
+
   const [refreshing, setRefreshing] = useState(false)
+  const [data, setData] = useState(null)
 
   const onRefresh = useCallback(() => {
     setRefreshing(true)
-    setTimeout(() => {
-      Alert.alert('error!', 'chua co api', [
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel...'),
-          style: 'cancel',
-        },
-        { text: 'OK', onPress: () => console.log('yeahhh') },
-      ])
+    setTimeout(async () => {
       setRefreshing(false)
+      console.log('refreshing')
+      await dispatch(loadPosts())
     }, 2000)
   }, [])
 
   function goDetail(params) {
-    console.log('hmm', params)
     navigation.navigate('Detail', params)
   }
+
+  useEffect(() => {
+    ;(async () => {
+      const res = await dispatch(loadPosts())
+    })()
+  }, [dispatch])
+
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 5,
-      }}
-    >
+    <View className="flex-1 items-center justify-center p-[5px]">
       <StatusBar />
 
-      <ScrollView
-        style={{ width: '100%' }}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-      >
-        <PostItem press={goDetail} />
+      <ScrollView className="w-full" refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+        {posts.map((post) => (
+          <PostItem press={goDetail} post={post} />
+        ))}
       </ScrollView>
     </View>
   )
 }
+
+//Header khi bam vao Detail
 const UserPost = ({ route, nav }) => (
   <View className="flex flex-row w-full items-center h-full">
-    <Ionicons name="chevron-back" size={24} color="black" onPress={(e) => nav.goBack()} />
-    <Image className="w-8 h-8 rounded-full" source={{ uri: route?.image }} />
-    <Text className="text-[16px]">{route?.user || 'VIET'}</Text>
+    <Ionicons name="chevron-back" size={24} color="white" onPress={(e) => nav.goBack()} />
   </View>
 )
+
 export default function Home({ navigation }) {
   const Stack = createStackNavigator()
   return (
@@ -64,7 +68,7 @@ export default function Home({ navigation }) {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: 'purple',
+            backgroundColor: '#644AB5',
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
@@ -77,9 +81,11 @@ export default function Home({ navigation }) {
         name="Detail"
         component={Detail}
         options={({ route, navigation }) => ({
-          title: '',
+          title: 'Detail Post',
+          headerTintColor: '#fff',
           headerStyle: {
             height: 40,
+            backgroundColor: '#644AB5',
           },
           headerLeft: () => <UserPost route={route.params} nav={navigation} />,
         })}
