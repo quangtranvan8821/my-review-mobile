@@ -1,16 +1,13 @@
-import React, { useEffect, useLayoutEffect } from "react";
-import { Provider } from "react-redux";
-import Main from "./src/Main";
-import store from "./src/redux";
-import { UIManager, Platform } from "react-native";
+import React from 'react'
+import { Provider } from 'react-redux'
+import Main from './src/Main'
+import store from './src/redux'
+import { UIManager, Platform } from 'react-native'
 
-import { withExpoSnack } from "nativewind";
+import { withExpoSnack } from 'nativewind'
 const App = () => {
-  if (
-    Platform.OS === "android" &&
-    UIManager.setLayoutAnimationEnabledExperimental
-  ) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
+  if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true)
   }
   return (
     <>
@@ -18,7 +15,7 @@ const App = () => {
         <Main />
       </Provider>
     </>
-  );
-};
+  )
+}
 
-export default withExpoSnack(App);
+export default withExpoSnack(App)

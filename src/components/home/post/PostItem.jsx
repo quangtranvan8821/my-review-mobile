@@ -1,14 +1,12 @@
 import { View, Text, TouchableOpacity, Image, Share } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { memo, useContext } from 'react'
+import { memo } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 
-const PostUser = {
-  user: 'vietdeptrai',
-  image: 'https://ben.com.vn/tin-tuc/wp-content/uploads/2021/12/anh-che-meo-dang-yeu-cho-may-tinh-6.jpg',
-  content:
-    'Có lẽ tạo hóa biết đã lỡ tay ban phát cho con người một đặc tính rất dễ thương và cũng rất dễ ghét là lòng ham muốn sở hữu, nên lại trao tặng cho con người trái tim. Cái trái đỏ phập phồng nhịp nhàng ở ngực bên trái của mỗi con người là quà tặng của tạo hóa để không bao giờ có thể sở hữu được.Những người tình khổ sở, những nhà quản lí đau đầu, những nhà chiếm đoạt vô vọng trước cái quả đào bất trị ấy. Thi hào Ta-go thì mỉm cười, tưởng chừng ông đứng trên đỉnh Hi-ma-lay-a mà cười đôi mắt lo âu của thiên hạ, cười trăng lơ mơ trên biển cả:',
-}
-const PostItem = ({ press }) => {
+const PostItem = ({ press, post }) => {
+  const dispatch = useDispatch()
+
+  //Click Share
   const onShare = async () => {
     try {
       await Share.share({
@@ -20,86 +18,47 @@ const PostItem = ({ press }) => {
       Alert.alert(error.message)
     }
   }
+
   return (
-    <View
-      // style={{
-      //   height: "auto",
-      //   width: "100%",
-      //   padding: 10,
-      //   display: "flex",
-      //   alignItems: "center",
-      //   justifyContent: "center",
-      //   backgroundColor: "#DDDDDD",
-      //   marginBottom: 10,
-      //   borderRadius: 8,
-      // }}
-      className="h-auto  w-full p-2 flex items-center justify-center bg-[#DDDDDD] mb-[10px] rounded-lg"
-    >
-      <View className="w-full h-10 flex flex-row items-center">
-        <Image
-          source={{
-            uri: PostUser?.image,
-          }}
-          className="w-8 h-8 rounded-full"
-        />
-        <Text className="text-[16px] ml-[5px]">{PostUser?.user}</Text>
+    <View className="w-full p-2 flex border-color-primary border-2 justify-center items-start bg-white mb-[10px] rounded-lg">
+      <View className="flex flex-row items-center">
+        <Image source={require('../../../../assets/images/user.png')} className="w-6 h-6 rounded-full" />
+
+        <Text className="text-[16px] ml-[5px] font-medium">{post?.name}</Text>
       </View>
 
-      <Text onPress={(e) => press(PostUser)}>{PostUser?.content}</Text>
-      <View
-        style={{
-          display: 'flex',
-          wrap: 'no-wrap',
-          flexDirection: 'row',
-          width: '100%',
-          alignItems: 'center',
-          borderTopWidth: 0.5,
-          borderBottomWidth: 0.5,
-          borderColor: '#999999',
-          marginTop: 10,
-        }}
-      >
-        <View
-          style={{
-            display: 'flex',
-            wrap: 'no-wrap',
-            flexDirection: 'row',
-            width: '50%',
-            alignItems: 'center',
-            justifyContent: 'flex-start',
-          }}
-        >
-          <TouchableOpacity style={{ marginLeft: 10, padding: 5 }}>
+      <Text>{post?.content}</Text>
+
+      <View className="w-full h-28">
+        <Image className="w-full h-full rounded" source={require('../../../../assets/images/hotay.jpg')} />
+      </View>
+
+      {/* Icon */}
+      <View className="flex flex-nowrap flex-row w-full items-center mt-[10px]">
+        <View className="flex flex-nowrap flex-row w-1/2 items-center justify-start">
+          <TouchableOpacity className="p-[5px] ml-[10px]">
             <Text>
-              <Ionicons name="heart-outline" size={29} color="#fff" />
+              <Ionicons name="heart-outline" size={29} color="#644AB5" />
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={(e) => press(PostUser)} style={{ marginLeft: 12, padding: 5 }}>
+
+          <TouchableOpacity onPress={(e) => press(post?.id)} className="p-[5px] ml-[12px]">
             <Text>
-              <Ionicons name="chatbubble-outline" size={26} color="#fff" />{' '}
+              <Ionicons name="chatbubble-outline" size={26} color="#644AB5" />
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={(e) => onShare()} style={{ marginLeft: 10, padding: 5 }}>
+
+          <TouchableOpacity onPress={(e) => onShare()} className="p-[5px] ml-[10px]">
             <Text>
-              {' '}
-              <Ionicons name="paper-plane-outline" size={26} color="#fff" />
+              <Ionicons name="paper-plane-outline" size={26} color="#644AB5" />
             </Text>
           </TouchableOpacity>
         </View>
-        <View
-          style={{
-            display: 'flex',
-            wrap: 'no-wrap',
-            flexDirection: 'row',
-            width: '50%',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-          }}
-        >
-          <TouchableOpacity style={{ marginLeft: 10, padding: 5 }}>
+
+        <View className="flex flex-nowrap flex-row w-1/2 items-center justify-end">
+          <TouchableOpacity className="ml-[10px] p-[5px]">
             <Text>
-              {' '}
-              <Ionicons name="bookmark-outline" size={26} color="#fff" />
+              <Ionicons name="bookmark-outline" size={26} color="#644AB5" />
             </Text>
           </TouchableOpacity>
         </View>

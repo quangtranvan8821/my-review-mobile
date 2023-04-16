@@ -1,31 +1,38 @@
-import { Button, View, Text, ScrollView, RefreshControl, Alert, Image } from 'react-native'
+import { Button, View, Text, TextInput, ScrollView, RefreshControl, TouchableOpacity, Alert, Image } from 'react-native'
+
+import Ionicons from '@expo/vector-icons/Ionicons'
+import { useState } from 'react'
 
 const Comment = ({ id }) => {
+  const [comment, setComment] = useState('')
+
   return (
-    <View style={{ display: 'flex', width: '100%', flexDirection: 'row' }}>
-      <View style={{ height: 50, justifyContent: 'flex-start', marginTop: 5, alignItems: 'center' }}>
-        <Image
-          style={{ width: 32, height: 32, borderRadius: 50, marginTop: 5 }}
-          source={{
-            uri: 'https://ben.com.vn/tin-tuc/wp-content/uploads/2021/12/anh-che-meo-dang-yeu-cho-may-tinh-6.jpg',
-          }}
+    <View>
+      <ScrollView showsVerticalScrollIndicator={false} style={{ height: 250, marginHorizontal: 2 }}>
+        <View className="w-full h-full">
+          <View className="flex flex-row w-full h-14 mb-4 rounded border-color-primary">
+            <View className="flex justify-center w-6 h-6 ml-6 mt-[7px]">
+              <Image className="w-6 h-6 rounded-full" source={require('../../../../assets/images/user.png')} />
+            </View>
+
+            <View className="p-[5px] rounded-xl ml-[4px] bg-slate-200 w-5/6">
+              <Text className="text-base font-medium">Sang</Text>
+              <Text className="text-xs">I'm a badboi</Text>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
+
+      <View className="w-full rounded-md border-2 flex items-start border-color-primary mt-2">
+        <TextInput
+          className="w-[85%] py-2 px-4"
+          placeholder="Enter Comment"
+          value={comment}
+          onChange={(e) => setComment(e)}
         />
-      </View>
-      <View
-        style={{
-          width: '88%',
-          maxWidth: '90%',
-          backgroundColor: '#fff',
-          padding: 5,
-          borderRadius: 4,
-          marginTop: 10,
-          marginLeft: 4,
-        }}
-      >
-        <Text style={{ fontSize: 16, marginLeft: 7 }}>sang</Text>
-        <Text style={{ fontSize: 14, marginLeft: 7 }}>
-          qua hayjdklfjds fjkldjflkdsjf lksdjfkldsjfdk fjldkjf clskjfdlskjf !!!
-        </Text>
+        <TouchableOpacity className="absolute right-3 bottom-2">
+          <Ionicons name="send" size={29} color="#644AB5" />
+        </TouchableOpacity>
       </View>
     </View>
   )

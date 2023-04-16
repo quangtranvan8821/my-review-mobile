@@ -8,7 +8,9 @@ import { getProfile } from '../../redux/profile/reducer'
 const SignIn = ({ navigation }) => {
   const [user, setUser] = useState('')
   const [psw, setPsw] = useState('')
+
   let isLoading = useSelector(isloading)
+
   const dispatch = useDispatch()
 
   const submit = async () => {
@@ -36,24 +38,27 @@ const SignIn = ({ navigation }) => {
       </View>
 
       <View className="w-full flex justify-center items-center">
-        <Text className="text-2xl font-medium mb-2">SignIn</Text>
+        <Text className="text-3xl text-color-primary font-medium mb-2">SignIn</Text>
 
-        <View className="w-5/6 flex flex-col items-center gap-2">
-          <TextInput
-            onChangeText={(e) => setUser(e)}
-            className="border-2 w-full py-2 px-4 border-purple rounded-3xl border-color-primary"
-            value={user}
-            placeholder="Enter Username"
-            textContentType="username"
-          />
+        <View>
+          <View className="ml-5 mr-5 border-2 w-4/5 h-14 mt-5 mb-5 flex-row items-center border-purple rounded-3xl border-color-primary">
+            <TextInput
+              id
+              onChangeText={(e) => setUser(e)}
+              className="h-full flex-1 ml-[10px] text-base"
+              value={user}
+              placeholder="Enter Username"
+              textContentType="username"
+            />
+          </View>
 
           <TextInput
             onChangeText={(e) => setPsw(e)}
-            className="border-2 w-full py-2 px-4 border-purple rounded-3xl border-color-primary"
+            className="border-2 w-full py-4 px-4 rounded-3xl border-color-primary"
             value={psw}
             textContentType="newPassword"
             name="password"
-            placeholder="Enter password"
+            placeholder="Enter Password"
             autoCapitalize="none"
             secureTextEntry
             enablesReturnKeyAutomatically
@@ -62,7 +67,7 @@ const SignIn = ({ navigation }) => {
 
         <TouchableOpacity
           onPress={(e) => submit()}
-          className="w-2/6 border-2 py-2 px-4 border-purple rounded-3xl border-color-primary bg-color-primary flex items-center mt-4"
+          className="w-2/6 border-2 py-2 px-4 rounded-3xl border-color-primary bg-color-primary flex items-center mt-4"
         >
           <Text className="text-white text-base font-bold">SignIn</Text>
         </TouchableOpacity>

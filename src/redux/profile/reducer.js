@@ -24,7 +24,7 @@ const profileReducer = createSlice({
       state.hasErr = false
     })
     builder.addCase(getProfile.fulfilled, (state, action) => {
-      console.log(action.payload,'jej')
+      console.log(action.payload, 'jej')
       state.data = action.payload
       state.isLoading = false
       state.hasErr = false

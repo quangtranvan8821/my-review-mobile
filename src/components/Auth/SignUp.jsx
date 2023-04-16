@@ -6,7 +6,6 @@ import { useNavigation } from '@react-navigation/native'
 import LoaderAnimation from '../../lib/LoaderAnimation'
 import * as Store from 'expo-secure-store'
 import { getProfile } from '../../redux/profile/reducer'
-
 const SignUp = ({ navigation }) => {
   const [user, setUser] = useState('')
   const [psw, setPsw] = useState('')
@@ -53,59 +52,49 @@ const SignUp = ({ navigation }) => {
         <Image source={require('../../../assets/images/Vectors.png')} />
       </View>
 
-      <View className="h-2/5/5 w-full flex justify-center items-center">
-        <Text className="text-4xl text-color-primary font-bold mb-2 tracking-[2px] ">SignUp</Text>
+      <View className="w-full flex justify-center items-center">
+        <Text className="text-3xl font-medium mb-2 text-color-primary">SignUp</Text>
 
-        <View>
-          <View className="ml-5 mr-5 border-2 w-4/5 h-14 mt-5 mb-5 flex-row items-center border-purple rounded-3xl border-color-primary">
-            <TextInput
-              id
-              onChangeText={(e) => setUser(e)}
-              className="h-full flex-1 ml-[10px] text-base"
-              value={user}
-              placeholder="Enter Username"
-              textContentType="username"
-            />
-          </View>
+        <View className="w-5/6 flex flex-col items-center gap-4">
+          <TextInput
+            onChangeText={(e) => setUser(e)}
+            className="border-2 w-full py-4 px-4 rounded-3xl border-color-primary"
+            value={user}
+            placeholder="Enter Email"
+            textContentType="Email"
+          />
 
-          <View className="ml-5 mr-5 border-2 w-4/5 h-14 mt-5 mb-5 flex-row items-center border-purple rounded-3xl border-color-primary">
-            <TextInput
-              onChangeText={(e) => setPsw(e)}
-              className="h-full flex-1 ml-[10px] text-base"
-              value={psw}
-              textContentType="newPassword"
-              name="password"
-              placeholder="Enter password"
-              autoCapitalize="none"
-              autoCorrect={false}
-              secureTextEntry
-              enablesReturnKeyAutomatically
-            />
-          </View>
-
-          <View className="ml-5 mr-5 border-2 w-4/5 h-14 mt-5 mb-5 flex-row items-center border-purple rounded-3xl border-color-primary">
-            <TextInput
-              onChangeText={(e) => validate(e, psw, setRePsw)}
-              className="h-full flex-1 ml-[10px] text-base"
-              value={repsw}
-              textContentType="newPassword"
-              name="re-password"
-              placeholder="Enter re-password"
-              autoCapitalize="none"
-              autoCorrect={false}
-              secureTextEntry
-              enablesReturnKeyAutomatically
-            />
-          </View>
-          <Text className="text-red-600 text-[11px]">{err}</Text>
+          <TextInput
+            onChangeText={(e) => setPsw(e)}
+            className="border-2 w-full py-4 px-4 rounded-3xl border-color-primary"
+            value={psw}
+            textContentType="newPassword"
+            name="password"
+            placeholder="Enter Password"
+            autoCapitalize="none"
+            secureTextEntry
+            enablesReturnKeyAutomatically
+          />
+          <TextInput
+            onChangeText={(e) => validate(e, psw, setRePsw)}
+            className="border-2 w-full py-4 px-4 rounded-3xl border-color-primary"
+            value={repsw}
+            textContentType="newPassword"
+            name="password"
+            placeholder="Enter Re-Password"
+            autoCapitalize="none"
+            secureTextEntry
+            enablesReturnKeyAutomatically
+          />
         </View>
 
         <TouchableOpacity
           onPress={(e) => submit()}
-          className="rounded-2xl bg-color-primary justify-center items-center pt-5 pb-5 pl-32 pr-32"
+          className="w-2/6 border-2 py-2 px-4 border-purple rounded-3xl border-color-primary bg-color-primary flex items-center mt-4"
         >
-          <Text className="text-white text-base font-bold">SignUp</Text>
+          <Text className="text-white text-base font-bold ">SignUp</Text>
         </TouchableOpacity>
+
         {isLoading && (
           <View className="w-2/6 h-2/6 absolute top-2/3">
             <LoaderAnimation />

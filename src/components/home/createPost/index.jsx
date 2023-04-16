@@ -11,26 +11,85 @@ import {
   InputAccessoryView,
   Dimensions,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, memo } from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { onPicker } from '../../../utils/ImageUpload'
 import { useIsFocused } from '@react-navigation/native'
 import FbGrid from 'react-native-fb-image-grid'
 
-const CreatePost = ({ navigation }) => {
-  const [text, onChangeText] = useState('')
-  const [image, setImage] = useState([])
+import { onPicker } from '../../../utils/ImageUpload'
+import { useSelector, useDispatch } from 'react-redux'
+import { addNewPost } from '../../../redux/post/postReducer'
+import { fetchApiUpload } from '../../../lib/fetchAPI'
 
+const CreatePost = ({ navigation }) => {
+  const dispatch = useDispatch()
+
+  const [name, setName] = useState('')
+  const [content, onChangeText] = useState('')
+  const [image, setImage] = useState([])
+  const [listImage, setListImage] = useState([])
   const inputAccessoryViewID = 'id'
+
   const isFocused = useIsFocused()
-  const onPress = (url, index, event) => {
-    // url and index of the image you have clicked alongwith onPress event.
+  useEffect(() => {
+    setImage(image)
+  }, [image])
+  const uploadImage = async () => {
+    if (image.length > 0) {
+      const formData = new FormData()
+      image.map((value, key) => {
+        formData.append('image', { name: `image${key}.jpeg`, uri: value, type: 'image/jpeg' })
+      })
+
+      try {
+        const res = await fetchApiUpload('/api/v1/media/upload', 'post', formData)
+        if (res.data) {
+          setListImage(res.data.path)
+          setImage([])
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
   }
+  const onClose = () => {
+    Alert.alert('Cancel ', 'Are you sure?', [
+      {
+        text: 'Cancel',
+        onPress: () => {
+          return
+        },
+        style: 'cancel',
+      },
+      { text: 'OK', onPress: () => navigation.navigate('My Review') },
+    ])
+  }
+  const handleNewPost = async () => {
+    try {
+      await uploadImage()
+      const newPost = {
+        name,
+        content,
+        medias: listImage,
+      }
+      const res = await dispatch(addNewPost(newPost))
+
+      if (res.payload) {
+        setName('')
+        onChangeText('')
+        navigation.replace('home')
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     isFocused === false &&
-      (text.length > 0 || image.length > 0) &&
-      Alert.alert('cancel ', 'are you sure', [
+      (content.length > 0 || image.length > 0) &&
+      Alert.alert('Cancel ', 'Are you sure?', [
         {
           text: 'Cancel',
           onPress: () => console.log(navigation.jumpTo('Create post')),
@@ -44,50 +103,69 @@ const CreatePost = ({ navigation }) => {
         },
       ])
   }, [isFocused])
-  return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <ScrollView style={{ flex: 1, backgroundColor: '#C0C0C0', paddingTop: 10 }}>
-        <View style={{ width: '100%', display: 'flex', flexDirection: 'row', alignItem: 'center' }}>
-          <TextInput
-            style={{
-              padding: 10,
-              color: '#fff',
-              width: '90%',
-              outline: 'none',
-              fontSize: 20,
-              maxHeight: 230,
-            }}
-            value={text}
-            onChangeText={onChangeText}
-            placeholder="how do you feel?"
-            multiline
-            autoFocus
-            inputAccessoryViewID={inputAccessoryViewID}
-          />
-          <Ionicons
-            style={{ width: '10%', height: 50 }}
-            name="images-outline"
-            size={30}
-            color="#fff"
-            onPress={(e) => onPicker({ setImage })}
-          ></Ionicons>
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <>
+          <TouchableOpacity
+            onPress={handleNewPost}
+            className="w-14 h-8 bg-white flex justify-center items-center rounded-lg mr-2"
+          >
+            <Text className="text-color-primary font-bold">Post</Text>
+          </TouchableOpacity>
+        </>
+      ),
+      headerLeft: () => (
+        <View>
+          <Ionicons onPress={(e) => onClose()} name="close-outline" size={26} color="#fff" style={{ marginLeft: 10 }} />
         </View>
-        <SafeAreaView>
-          {image?.length > 0 && (
-            <View className="w-full h-[200px]">
-              <FbGrid images={image} onPress={onPress} />
-            </View>
-          )}
-          {Platform.OS === 'ios' && (
-            <InputAccessoryView nativeID={inputAccessoryViewID}>
-              <View style={{ backgroundColor: '#fff', width: '100%' }}>
-                <Text>hihi</Text>
-              </View>
-            </InputAccessoryView>
-          )}
-        </SafeAreaView>
-      </ScrollView>
-    </TouchableWithoutFeedback>
+      ),
+    })
+  }, [navigation, name, content])
+
+  return (
+    <>
+      <View className="w-full flex justify-center items-center mt-6">
+        <View className="w-5/6 flex flex-col items-center gap-4">
+          {/* Title */}
+          <TextInput
+            className="border-2 w-full py-2 px-4 rounded-md border-color-primary"
+            placeholder="Title"
+            onChangeText={setName}
+            value={name}
+          />
+
+          {/* Description */}
+          <TextInput
+            className="border-2 w-full py-2 px-4 rounded-md border-color-primary"
+            placeholder="Want to share something?"
+            onChangeText={onChangeText}
+            value={content}
+          />
+
+          {/* Image */}
+          <View className="flex items-end w-full justify-start rounded-md border-color-primary">
+            <TouchableOpacity>
+              <Ionicons
+                name="images-outline"
+                size={30}
+                color="#644AB5"
+                onPress={(e) => onPicker({ setImage })}
+              ></Ionicons>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+
+      <SafeAreaView>
+        {image?.length > 0 && (
+          <View className="w-5/6 h-[200px] flex mt-1 ml-[30px]">
+            <FbGrid images={image} />
+          </View>
+        )}
+      </SafeAreaView>
+    </>
   )
 }
-export default CreatePost
+export default memo(CreatePost)
