@@ -75,10 +75,9 @@ export default function Home({ navigation }) {
         name="Detail"
         component={Detail}
         options={({ route, navigation }) => ({
-          title: 'Detail Post',
           headerTintColor: '#fff',
           headerStyle: {
-            height: 40,
+            height: 60,
             backgroundColor: '#644AB5',
           },
           

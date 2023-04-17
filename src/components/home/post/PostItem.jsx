@@ -39,19 +39,19 @@ const PostItem = ({ press, post }) => {
         <View className="flex flex-nowrap flex-row w-1/2 items-center justify-start">
           <TouchableOpacity className="p-[5px] ml-[10px]">
             <Text>
-              <Ionicons name="heart-outline" size={29} color="#644AB5" />
+              <Ionicons name="heart-outline" size={36} color="#644AB5" />
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={(e) => press(post?.id)} className="p-[5px] ml-[12px]">
             <Text>
-              <Ionicons name="chatbubble-outline" size={26} color="#644AB5" />
+              <Ionicons name="chatbubble-outline" size={33} color="#644AB5" />
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={(e) => onShare()} className="p-[5px] ml-[10px]">
             <Text>
-              <Ionicons name="paper-plane-outline" size={26} color="#644AB5" />
+              <Ionicons name="paper-plane-outline" size={33} color="#644AB5" />
             </Text>
           </TouchableOpacity>
         </View>
@@ -59,7 +59,7 @@ const PostItem = ({ press, post }) => {
         <View className="flex flex-nowrap flex-row w-1/2 items-center justify-end">
           <TouchableOpacity className="ml-[10px] p-[5px]">
             <Text>
-              <Ionicons name="bookmark-outline" size={26} color="#644AB5" />
+              <Ionicons name="bookmark-outline" size={33} color="#644AB5" />
             </Text>
           </TouchableOpacity>
         </View>
