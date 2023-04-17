@@ -23,16 +23,16 @@ const PostItem = ({ press, post }) => {
   return (
     <View className="w-full p-2 flex border-color-primary border-1 justify-center items-start bg-white mb-[10px] rounded-lg">
       <View className="flex flex-row items-center">
-        <Avatar rounded size='small' source={post?.createdBy?.avatar ? { uri:post?.createdBy?.avatar} : require('../../../../assets/images/Avatar.png')}/>
+        <Avatar rounded size='medium' source={post?.created_by?.avatar ? { uri:post?.created_by?.avatar} : require('../../../../assets/images/Avatar.png')}/>
 
-        <Text className="text-[16px] py-2 ml-[5px] font-medium">{post?.name}</Text>
+        <Text className="text-[20px] py-2 ml-[5px] font-medium">{post?.created_by?.name}</Text>
       </View>
 
-      <Text>{post?.content}</Text>
+      <Text className='text-[19px]'>{post?.content}</Text>
 
-      <View className="w-full max-h-[350px] py-2 overflow-hidden">
+      {/* <View className="w-full max-h-[350px] py-2 overflow-hidden">
         <Image className="aspect-auto max-w-full max-h-full  rounded" source={require('../../../../assets/images/hotay.jpg')} />
-      </View>
+      </View> */}
 
       {/* Icon */}
       <View className="flex flex-nowrap flex-row w-full items-center mt-[10px]">

@@ -1,20 +1,37 @@
 import { View, Text, TouchableOpacity, Image, ScrollView,Alert } from 'react-native'
 import { memo,useState,useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Ionicons from '@expo/vector-icons/Ionicons'
 
 import Comment from './Comment.jsx'
 import { selectPostById } from '../../../redux/post/postReducer.js'
 import { TextInput } from 'react-native'
 import { Avatar } from '@rneui/base'
+import { addNewComment, commentData, loadComments } from '../../../redux/post/commentReducer.js'
 
 const Detail = ({ route, navigation }) => {
+  const dispatch = useDispatch();
   const post = useSelector((state) => selectPostById(state, route.params))
+  const datacmt = useSelector(commentData)
   const [comment, setComment] = useState('')
 
+  useEffect(() => {
+    dispatch(loadComments({id:post.id}))
+    navigation.setOptions({
+      title: '',
+      headerLeft: () => (
+          <View className="flex flex-row items-center ">
+          <Ionicons onPress={e => onClose()} name="chevron-back-outline" size={33} color="#fff" className="ml-2" />
+          <Avatar rounded size='medium' source={post?.created_by?.avatar ? { uri:post?.created_by?.avatar} : require('../../../../assets/images/Avatar.png')}/>
+          <Text className="text-2xl ml-[5px] font-medium text-white">{post.created_by.name}</Text>
+        </View>
+      ),
+    })
+  }, [navigation, route])
+  
 
   const onClose = () => {
-    if (comment.length > 0) {
+    try {
       Alert.alert('Cancel ', 'Are you sure?', [
         {
           text: 'Cancel',
@@ -25,32 +42,33 @@ const Detail = ({ route, navigation }) => {
         },
         { text: 'OK', onPress: () => navigation.goBack() },
       ])
-    }
+      
     
-     else navigation.goBack()
-    
+  } catch (error) {
+    console.log(error)
   }
-  useEffect(() => {
-    navigation.setOptions({
-      title: '',
-      headerLeft: () => (
-          <View className="w-full flex flex-row items-center ">
-          <Ionicons onPress={e => onClose()} name="chevron-back-outline" size={33} color="#fff" className="ml-2" />
-          <Avatar rounded size='medium' source={post?.createdBy?.avatar ? { uri:post?.createdBy?.avatar} : require('../../../../assets/images/Avatar.png')}/>
-          <Text className="text-2xl ml-[5px] font-medium text-white">{post.name}</Text>
-        </View>
-      ),
-    })
-  }, [navigation,route])
+  }
+  
+  const submit = async () => {
+    let data = {
+      id: post.id,
+      cmt: comment
+    }
+    await dispatch(addNewComment(data))
+    console.log(data,'hihi')
+ }
+  const onChangeText = (value) => {
+     setComment(value)
+  }
   return (
     <ScrollView className="p-2 bg-white">
       <View className=" flex rounded-lg w-full">
         
         <Text className="py-1 text-[18px]">{post.content}</Text>
 
-        <View className="w-full max-h-80">
+        {/* <View className="w-full max-h-80">
           <Image className="w-full aspect-auto h-full rounded" source={require('../../../../assets/images/hotay.jpg')}  />
-        </View>
+        </View> */}
 
         {/* icon */}
         <View className="flex flex-nowrap flex-row w-full items-center mt-[10px]">
@@ -65,7 +83,7 @@ const Detail = ({ route, navigation }) => {
                 <Ionicons name="chatbubble-outline" size={33} color="#644AB5" />
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={(e) => onShare()} className="p-[5px] ml-[10px]">
+            <TouchableOpacity onPress={(e) =>  onShare()} className="p-[5px] ml-[10px]">
               <Text>
                 <Ionicons name="paper-plane-outline" size={33} color="#644AB5" />
               </Text>
@@ -88,9 +106,9 @@ const Detail = ({ route, navigation }) => {
           className="w-[90%] py-3 px-4  bg-slate-200 rounded-lg outline-none"
           placeholder="Enter Comment"
           value={comment}
-          onChangeText={(e) => setComment(e)}
+          onChangeText={e => onChangeText(e)}
         />
-        <TouchableOpacity className="absolute right-3 bottom-2">
+        <TouchableOpacity className="absolute right-3 bottom-2" onPress={e => submit()}>
           <Ionicons name="send" size={35} color="#644AB5" />
         </TouchableOpacity>
       </View>

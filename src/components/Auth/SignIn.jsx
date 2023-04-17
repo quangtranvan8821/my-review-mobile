@@ -32,17 +32,18 @@ const SignIn = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView className="h-full w-full">
+    <SafeAreaView className="h-full">
       <View>
         <Image className="w-full" source={require('../../../assets/images/Vectors.png')} />
       </View>
 
-      <View className="w-full flex  items-center justify-center">
-        <Text className="text-3xl text-color-primary font-medium mb-2">SignIn</Text>
+      <View className="flex items-center justify-center">
+        <Text className=" text-color-primary  font-medium text-5xl ">SignIn</Text>
 
-        <View className="w-full flex items-center">
-          <View className="p-3 ml-5 mr-5 border-2 w-4/5 h-14 mt-5 mb-5 flex-row items-center border-purple rounded-3xl border-color-primary">
+        <View className="w-full flex items-center ">
+          <View className="w-4/5 h-14 p-3 m-5 border-2 flex-row items-center border-purple rounded-3xl border-color-primary">
             <TextInput
+              className='w-full'
               id
               onChangeText={(e) => setUser(e)}
               value={user}
@@ -51,8 +52,10 @@ const SignIn = ({ navigation }) => {
             />
           </View>
 
-          <View className=" p-3 ml-5 mr-5 border-2 w-4/5 h-14 mt-5 mb-5 flex-row items-center border-purple rounded-3xl border-color-primary">
-          <TextInput
+          <View className="w-4/5 h-14 p-3 m-5 border-2 flex-row items-center border-purple rounded-3xl border-color-primary">
+
+            <TextInput
+              className="w-full"
             onChangeText={(e) => setPsw(e)}
             value={psw}
             textContentType="newPassword"
