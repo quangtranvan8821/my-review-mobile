@@ -49,7 +49,7 @@ const SignUp = ({ navigation }) => {
   return (
     <SafeAreaView className="h-full">
       <View>
-        <Image source={require('../../../assets/images/Vectors.png')} />
+        <Image className="w-full" source={require('../../../assets/images/Vectors.png')} />
       </View>
 
       <View className="w-full flex justify-center items-center">

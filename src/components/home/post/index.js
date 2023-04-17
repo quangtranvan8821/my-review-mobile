@@ -81,7 +81,7 @@ export default function Home({ navigation }) {
             height: 40,
             backgroundColor: '#644AB5',
           },
-          headerLeft: () => <UserPost route={route.params} nav={navigation} />,
+          
         })}
       />
     </Stack.Navigator>

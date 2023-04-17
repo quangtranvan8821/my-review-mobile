@@ -4,7 +4,6 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import { useState } from 'react'
 
 const Comment = ({ id }) => {
-  const [comment, setComment] = useState('')
 
   return (
     <View>
@@ -23,17 +22,7 @@ const Comment = ({ id }) => {
         </View>
       </ScrollView>
 
-      <View className="w-full rounded-md border-2 flex items-start border-color-primary mt-2">
-        <TextInput
-          className="w-[85%] py-2 px-4"
-          placeholder="Enter Comment"
-          value={comment}
-          onChange={(e) => setComment(e)}
-        />
-        <TouchableOpacity className="absolute right-3 bottom-2">
-          <Ionicons name="send" size={29} color="#644AB5" />
-        </TouchableOpacity>
-      </View>
+   
     </View>
   )
 }

@@ -32,29 +32,28 @@ const SignIn = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView className="h-full">
+    <SafeAreaView className="h-full w-full">
       <View>
-        <Image source={require('../../../assets/images/Vectors.png')} />
+        <Image className="w-full" source={require('../../../assets/images/Vectors.png')} />
       </View>
 
-      <View className="w-full flex justify-center items-center">
+      <View className="w-full flex  items-center justify-center">
         <Text className="text-3xl text-color-primary font-medium mb-2">SignIn</Text>
 
-        <View>
-          <View className="ml-5 mr-5 border-2 w-4/5 h-14 mt-5 mb-5 flex-row items-center border-purple rounded-3xl border-color-primary">
+        <View className="w-full flex items-center">
+          <View className="p-3 ml-5 mr-5 border-2 w-4/5 h-14 mt-5 mb-5 flex-row items-center border-purple rounded-3xl border-color-primary">
             <TextInput
               id
               onChangeText={(e) => setUser(e)}
-              className="h-full flex-1 ml-[10px] text-base"
               value={user}
               placeholder="Enter Username"
               textContentType="username"
             />
           </View>
 
+          <View className=" p-3 ml-5 mr-5 border-2 w-4/5 h-14 mt-5 mb-5 flex-row items-center border-purple rounded-3xl border-color-primary">
           <TextInput
             onChangeText={(e) => setPsw(e)}
-            className="border-2 w-full py-4 px-4 rounded-3xl border-color-primary"
             value={psw}
             textContentType="newPassword"
             name="password"
@@ -63,6 +62,7 @@ const SignIn = ({ navigation }) => {
             secureTextEntry
             enablesReturnKeyAutomatically
           />
+          </View>
         </View>
 
         <TouchableOpacity

@@ -5,7 +5,12 @@ import store from './src/redux'
 import { UIManager, Platform } from 'react-native'
 
 import { withExpoSnack } from 'nativewind'
-const App = () => {
+import { NativeWindStyleSheet } from "nativewind";
+
+NativeWindStyleSheet.setOutput({
+  default: "native",
+});
+function App() {
   if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true)
   }

@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity, Image, Share } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { memo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { Avatar } from '@rneui/base'
 
 const PostItem = ({ press, post }) => {
   const dispatch = useDispatch()
@@ -20,17 +21,17 @@ const PostItem = ({ press, post }) => {
   }
 
   return (
-    <View className="w-full p-2 flex border-color-primary border-2 justify-center items-start bg-white mb-[10px] rounded-lg">
+    <View className="w-full p-2 flex border-color-primary border-1 justify-center items-start bg-white mb-[10px] rounded-lg">
       <View className="flex flex-row items-center">
-        <Image source={require('../../../../assets/images/user.png')} className="w-6 h-6 rounded-full" />
+        <Avatar rounded size='small' source={post?.createdBy?.avatar ? { uri:post?.createdBy?.avatar} : require('../../../../assets/images/Avatar.png')}/>
 
-        <Text className="text-[16px] ml-[5px] font-medium">{post?.name}</Text>
+        <Text className="text-[16px] py-2 ml-[5px] font-medium">{post?.name}</Text>
       </View>
 
       <Text>{post?.content}</Text>
 
-      <View className="w-full h-28">
-        <Image className="w-full h-full rounded" source={require('../../../../assets/images/hotay.jpg')} />
+      <View className="w-full max-h-[350px] py-2 overflow-hidden">
+        <Image className="aspect-auto max-w-full max-h-full  rounded" source={require('../../../../assets/images/hotay.jpg')} />
       </View>
 
       {/* Icon */}

@@ -1,9 +1,12 @@
-import { Button, Text, View, SafeAreaView, StatusBar, Image } from 'react-native'
+import {  Text, View, SafeAreaView, StatusBar, Image } from 'react-native'
 import * as Store from 'expo-secure-store'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout, token } from '../../../redux/auth/reducer'
 import { getProfile, profile } from '../../../redux/profile/reducer'
+import { Button } from '@rneui/themed'
+import Ionicons from '@expo/vector-icons/Ionicons'
+
 const Profile = ({ navigation }) => {
   const dispatch = useDispatch()
 
@@ -25,7 +28,7 @@ const Profile = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView className="flex-1 justify-center">
+    <SafeAreaView className="flex-1 flex">
       <StatusBar />
       {/* Content */}
       {profileUser && (
@@ -34,9 +37,13 @@ const Profile = ({ navigation }) => {
           <Text className="ml-3 text-2xl">{profileUser.name || 'anonymous user'}</Text>
         </View>
       )}
-
-      <View className="w-3/5">
-        <Button title="logout" onPress={signOut} />
+      <View>
+        <Text>Settings</Text>
+        <Ionicons name="chevron-forward-outline" size={22} color="black"></Ionicons>
+      </View>
+      <View className="w-full flex mt-9 
+      items-center">
+        <Button containerStyle={{width:"40%"}} title="logout" onPress={signOut} />
       </View>
     </SafeAreaView>
   )

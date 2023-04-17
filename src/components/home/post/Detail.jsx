@@ -1,25 +1,55 @@
-import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native'
-import { memo } from 'react'
+import { View, Text, TouchableOpacity, Image, ScrollView,Alert } from 'react-native'
+import { memo,useState,useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import Ionicons from '@expo/vector-icons/Ionicons'
 
 import Comment from './Comment.jsx'
 import { selectPostById } from '../../../redux/post/postReducer.js'
+import { TextInput } from 'react-native'
+import { Avatar } from '@rneui/base'
 
 const Detail = ({ route, navigation }) => {
   const post = useSelector((state) => selectPostById(state, route.params))
+  const [comment, setComment] = useState('')
 
+
+  const onClose = () => {
+    if (comment.length > 0) {
+      Alert.alert('Cancel ', 'Are you sure?', [
+        {
+          text: 'Cancel',
+          onPress: () => {
+            return
+          },
+          style: 'cancel',
+        },
+        { text: 'OK', onPress: () => navigation.goBack() },
+      ])
+    }
+    
+     else navigation.goBack()
+    
+  }
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <View>
+          <Ionicons onPress={e => onClose()} name="chevron-back-outline" size={26} color="#fff" style={{ marginLeft: 10 }} />
+        </View>
+      ),
+    })
+  }, [navigation,route])
   return (
-    <ScrollView className="pl-[10px] pr-[10px] mt-2 bg-white" showsVerticalScrollIndicator alwaysBounceVertical>
-      <View className="h-auto  w-full p-2 flex border-color-primary border-2 justify-center items-start mb-[10px] rounded-lg">
+    <ScrollView className="p-2 bg-white">
+      <View className=" flex rounded-lg w-full">
         <View className="w-full h-10 flex flex-row items-center">
-          <Image source={require('../../../../assets/images/user.png')} className="w-6 h-6 rounded-full" />
+          <Avatar rounded size='small' source={post?.createdBy?.avatar ? { uri:post?.createdBy?.avatar} : require('../../../../assets/images/Avatar.png')}/>
           <Text className="text-[16px] ml-[5px] font-medium">{post.name}</Text>
         </View>
         <Text>{post.content}</Text>
 
-        <View className="w-full h-28">
-          <Image className="w-full h-full rounded" source={require('../../../../assets/images/hotay.jpg')} />
+        <View className="w-full max-h-80">
+          <Image className="w-full aspect-auto h-full rounded" source={require('../../../../assets/images/hotay.jpg')}  />
         </View>
 
         {/* icon */}
@@ -52,9 +82,22 @@ const Detail = ({ route, navigation }) => {
         </View>
       </View>
 
-      <View className="w-full h-full">
-        <Comment />
+      <View className="w-full h-auto">
+      <View className="bg-white w-full rounded-md  flex items-start my-2">
+        <TextInput
+          className="w-[85%] py-2 px-4 bg-white outline-none none"
+          placeholder="Enter Comment"
+          value={comment}
+          onChangeText={(e) => setComment(e)}
+        />
+        <TouchableOpacity className="absolute right-3 bottom-2">
+          <Ionicons name="send" size={29} color="#644AB5" />
+        </TouchableOpacity>
       </View>
+        <Comment />
+        
+      </View>
+    
     </ScrollView>
   )
 }
