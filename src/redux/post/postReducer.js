@@ -9,7 +9,7 @@ const initialState = {
 
 // loadData Post
 export const loadPosts = createAsyncThunk('post/loadpost', async () => {
-  const res = await fetchApi('/api/v1/post')
+  const res = await fetchApi('/api/v1/post/find','post')
   if (res.status == 200) {
     return await res.data
   }

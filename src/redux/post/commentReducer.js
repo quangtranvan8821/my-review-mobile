@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { fetchApi } from '../../lib/fetchAPI'
-
 const initialState = {
   commentData: [],
   isloading: false,
@@ -8,8 +7,8 @@ const initialState = {
 }
 
 // loadData comment
-export const loadComments = createAsyncThunk('comment/loadcomment', async () => {
-  const res = await fetchApi('/api/v1/comment')
+export const loadComments = createAsyncThunk('comment/loadcomment', async (body) => {
+  const res = await fetchApi(`/api/v1/comment/find`, 'post', body)
   if (res.status == 200) {
     return await res.data
   }
@@ -18,8 +17,9 @@ export const loadComments = createAsyncThunk('comment/loadcomment', async () => 
 
 // add New comment
 export const addNewComment = createAsyncThunk('comment/addNewcomment', async (body) => {
-  const response = await fetchApi('/api/v1/comment', 'comment', body)
+  const response = await fetchApi('/api/v1/comment', 'post', body)
   if (response.status == 200 || response.status === 201) {
+    
     return await response.data
   }
   return await res.json()
@@ -56,6 +56,7 @@ const CommentReducer = createSlice({
         state.haserr = false
       })
       .addCase(loadComments.fulfilled, (state, action) => {
+        console.log('hihi',action.payload)
         state.commentData = action.payload
       })
       .addCase(loadComments.rejected, (state, action) => {

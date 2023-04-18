@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { isloading, loadPosts, postData } from '../../../redux/post/postReducer.js'
 import * as Store from 'expo-secure-store'
 import token from '../../../redux/auth/reducer.js'
+import { loadComments } from '../../../redux/post/commentReducer.js'
 
 const ScrollHome = ({ navigation }) => {
   const dispatch = useDispatch()
@@ -22,7 +23,8 @@ const ScrollHome = ({ navigation }) => {
     setRefreshing(isLoading)
   }, [])
 
-  function goDetail(params) {
+ async function goDetail(params) {
+    // await dispatch(loadComments({ query: { post_id: params?.id } }))
     navigation.navigate('Detail', params)
   }
 

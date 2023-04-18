@@ -15,7 +15,6 @@ export const login = createAsyncThunk(`auth/login`, async (body) => {
   if (res.status == 200) {
     return await res.data
   }
-  console.log(res)
   return await res.json()
 })
 

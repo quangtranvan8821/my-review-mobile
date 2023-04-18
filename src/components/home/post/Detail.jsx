@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity, Image, ScrollView,Alert } from 'react-native'
-import { memo,useState,useEffect } from 'react'
+import { View, Text, TouchableOpacity, Image, ScrollView, Alert, ToastAndroid } from 'react-native'
+import { memo, useState, useEffect, useLayoutEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Ionicons from '@expo/vector-icons/Ionicons'
 
@@ -8,27 +8,37 @@ import { selectPostById } from '../../../redux/post/postReducer.js'
 import { TextInput } from 'react-native'
 import { Avatar } from '@rneui/base'
 import { addNewComment, commentData, loadComments } from '../../../redux/post/commentReducer.js'
-
+import { MenuContext, MenuProvider, Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu'
+import { profile } from '../../../redux/profile/reducer.js'
 const Detail = ({ route, navigation }) => {
-  const dispatch = useDispatch();
-  const post = useSelector((state) => selectPostById(state, route.params))
+  const dispatch = useDispatch()
+  const post = route.params
   const datacmt = useSelector(commentData)
+  const userData = useSelector(profile)
   const [comment, setComment] = useState('')
+  console.log('ss', datacmt)
+  useLayoutEffect(() => {
+    dispatch(loadComments({ query: { post_id: post.id } }))
 
-  useEffect(() => {
-    dispatch(loadComments({id:post.id}))
     navigation.setOptions({
       title: '',
       headerLeft: () => (
-          <View className="flex flex-row items-center ">
-          <Ionicons onPress={e => onClose()} name="chevron-back-outline" size={33} color="#fff" className="ml-2" />
-          <Avatar rounded size='medium' source={post?.created_by?.avatar ? { uri:post?.created_by?.avatar} : require('../../../../assets/images/Avatar.png')}/>
+        <View className="flex items-center flex-row">
+          <Ionicons onPress={(e) => onClose()} name="chevron-back-outline" size={33} color="#fff" className="ml-2" />
+          <Avatar
+            rounded
+            size="medium"
+            source={
+              post?.created_by?.avatar
+                ? { uri: post?.created_by?.avatar }
+                : require('../../../../assets/images/Avatar.png')
+            }
+          />
           <Text className="text-2xl ml-[5px] font-medium text-white">{post.created_by.name}</Text>
         </View>
       ),
     })
   }, [navigation, route])
-  
 
   const onClose = () => {
     try {
@@ -42,28 +52,33 @@ const Detail = ({ route, navigation }) => {
         },
         { text: 'OK', onPress: () => navigation.goBack() },
       ])
-      
-    
-  } catch (error) {
-    console.log(error)
-  }
-  }
-  
-  const submit = async () => {
-    let data = {
-      id: post.id,
-      cmt: comment
+    } catch (error) {
+      console.log(error)
     }
-    await dispatch(addNewComment(data))
-    console.log(data,'hihi')
- }
+  }
+
+  const submit = async () => {
+    console.log('click')
+    if (comment.trim() === '') {
+      return
+    }
+    let data = {
+      post_id: post.id,
+      content: comment,
+    }
+    let res = await dispatch(addNewComment(data))
+    if (res.payload) {
+      setComment('')
+      await dispatch(loadComments({ post_id: post.id }))
+    }
+    console.log(data, 'hihi')
+  }
   const onChangeText = (value) => {
-     setComment(value)
+    setComment(value)
   }
   return (
     <ScrollView className="p-2 bg-white">
       <View className=" flex rounded-lg w-full">
-        
         <Text className="py-1 text-[18px]">{post.content}</Text>
 
         {/* <View className="w-full max-h-80">
@@ -83,10 +98,8 @@ const Detail = ({ route, navigation }) => {
                 <Ionicons name="chatbubble-outline" size={33} color="#644AB5" />
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={(e) =>  onShare()} className="p-[5px] ml-[10px]">
-              <Text>
-                <Ionicons name="paper-plane-outline" size={33} color="#644AB5" />
-              </Text>
+            <TouchableOpacity className="p-[5px] ml-[10px]">
+              <Ionicons onPress={(e) => onShare()} name="paper-plane-outline" size={33} color="#644AB5" />
             </TouchableOpacity>
           </View>
 
@@ -101,21 +114,46 @@ const Detail = ({ route, navigation }) => {
       </View>
 
       <View className="w-full">
-      <View className="bg-white m-2  w-full rounded-md  flex items-start my-2">
-        <TextInput
-          className="w-[90%] py-3 px-4  bg-slate-200 rounded-lg outline-none"
-          placeholder="Enter Comment"
-          value={comment}
-          onChangeText={e => onChangeText(e)}
-        />
-        <TouchableOpacity className="absolute right-3 bottom-2" onPress={e => submit()}>
-          <Ionicons name="send" size={35} color="#644AB5" />
-        </TouchableOpacity>
+        <View className="bg-white m-2  w-full rounded-md  flex items-start my-2">
+          <TextInput
+            className="w-[90%] py-3 px-4  bg-slate-200 rounded-lg outline-none"
+            placeholder="Enter Comment"
+            value={comment}
+            onChangeText={(e) => onChangeText(e)}
+            multiline
+            enablesReturnKeyAutomatically
+          />
+          <TouchableOpacity onPress={(e) => submit()} className="absolute right-3 bottom-2">
+            <Ionicons name="send" size={35} color="#644AB5" />
+          </TouchableOpacity>
+        </View>
+        {datacmt && (
+          <>
+            <MenuProvider>
+              {datacmt.map((val, key) => (
+                <>
+                {
+                  val.created_by_id === userData.id ?
+                  <Menu key={key}>
+                  <MenuTrigger>
+                    <Comment data={val} />
+                  </MenuTrigger>
+                  <MenuOptions customStyles={{width:40}}>
+                    <MenuOption onSelect={() => alert(`Save`)} text="Sửa" />
+                    <MenuOption onSelect={() => alert(`Delete`)} text="Xóa" />
+                  </MenuOptions>
+                  
+                </Menu>
+                  :
+                  <Comment key={key} data={val} />
+
+              }
+                </>
+              ))}
+            </MenuProvider>
+          </>
+        )}
       </View>
-        <Comment />
-        
-      </View>
-    
     </ScrollView>
   )
 }

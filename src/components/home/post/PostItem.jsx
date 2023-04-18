@@ -43,7 +43,7 @@ const PostItem = ({ press, post }) => {
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={(e) => press(post?.id)} className="p-[5px] ml-[12px]">
+          <TouchableOpacity onPress={(e) => press(post)} className="p-[5px] ml-[12px]">
             <Text>
               <Ionicons name="chatbubble-outline" size={33} color="#644AB5" />
             </Text>

@@ -32,14 +32,13 @@ const Profile = ({ navigation }) => {
       <StatusBar />
       {/* Content */}
       {profileUser && (
-        <View className="flex flex-row w-full h-14 my-2 px-3 items-center  justify-start">
+        <View className="flex flex-row w-full h-16  my-2 px-3 items-center  justify-start  bg-slate-400">
           <Image source={require('../../../../assets/images/Avatar.png')} className="w-10 h-10 rounded-full" />
           <Text className="ml-3 text-2xl">{profileUser.name || 'anonymous user'}</Text>
         </View>
       )}
-      <View>
-        <Text>Settings</Text>
-        <Ionicons name="chevron-forward-outline" size={22} color="black"></Ionicons>
+      <View className="flex flex-row items-center justify-center bg-slate-400 w-full h-16  px-3">
+        <Text className="text-2xl">Settings</Text>
       </View>
       <View className="w-full flex mt-9 
       items-center">

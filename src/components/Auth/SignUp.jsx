@@ -65,7 +65,7 @@ const SignUp = ({ navigation }) => {
           />
 
           <TextInput
-            onChangeText={(e) => setPsw(e)}
+            onChangeText={e => validate(e,repsw,setPsw)}
             className="border-2 w-full py-4 px-4 rounded-3xl border-color-primary"
             value={psw}
             textContentType="newPassword"
@@ -76,7 +76,7 @@ const SignUp = ({ navigation }) => {
             enablesReturnKeyAutomatically
           />
           <TextInput
-            onChangeText={(e) => validate(e, psw, setRePsw)}
+            onChangeText={e => validate(e, psw, setRePsw)}
             className="border-2 w-full py-4 px-4 rounded-3xl border-color-primary"
             value={repsw}
             textContentType="newPassword"
@@ -86,8 +86,11 @@ const SignUp = ({ navigation }) => {
             secureTextEntry
             enablesReturnKeyAutomatically
           />
+          
         </View>
-
+        <View className='w-4/5 text-left pt-2'>
+        {err && <Text className="text-red-700">{err}</Text>}
+        </View>
         <TouchableOpacity
           onPress={(e) => submit()}
           className="w-2/6 border-2 py-2 px-4 border-purple rounded-3xl border-color-primary bg-color-primary flex items-center mt-4"
