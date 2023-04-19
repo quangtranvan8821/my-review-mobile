@@ -9,7 +9,7 @@ const initialState = {
 
 // loadData Post
 export const loadPosts = createAsyncThunk('post/loadpost', async () => {
-  const res = await fetchApi('/api/v1/post/find','post')
+  const res = await fetchApi('/api/v1/post/find', 'post')
   if (res.status == 200) {
     return await res.data
   }
@@ -27,7 +27,7 @@ export const addNewPost = createAsyncThunk('post/addNewPost', async (body) => {
 
 //delete Post
 export const postDeletes = createAsyncThunk('post/delete', async (body) => {
-  const res = await fetchApi('/postDelete', 'post', body)
+  const res = await fetchApi(`/api/v1/post/${body}`, 'delete')
   if (res.status == 200) {
     return await res.data
   }

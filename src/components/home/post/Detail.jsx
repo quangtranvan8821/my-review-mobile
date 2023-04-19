@@ -7,16 +7,23 @@ import Comment from './Comment.jsx'
 import { selectPostById } from '../../../redux/post/postReducer.js'
 import { TextInput } from 'react-native'
 import { Avatar } from '@rneui/base'
-import { addNewComment, commentData, loadComments } from '../../../redux/post/commentReducer.js'
-import { MenuContext, MenuProvider, Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu'
+import {
+  addNewComment,
+  commentData,
+  commentDeletes,
+  loadComments,
+  isloading,
+} from '../../../redux/post/commentReducer.js'
+import { MenuProvider, Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu'
 import { profile } from '../../../redux/profile/reducer.js'
 const Detail = ({ route, navigation }) => {
   const dispatch = useDispatch()
   const post = route.params
   const datacmt = useSelector(commentData)
   const userData = useSelector(profile)
+  let isLoading = useSelector(isloading)
   const [comment, setComment] = useState('')
-  console.log('ss', datacmt)
+
   useLayoutEffect(() => {
     dispatch(loadComments({ query: { post_id: post.id } }))
 
@@ -56,9 +63,36 @@ const Detail = ({ route, navigation }) => {
       console.log(error)
     }
   }
+  const onDelCmt = async (id) => {
+    try {
+      Alert.alert('Cancel ', 'Are you sure?', [
+        {
+          text: 'Cancel',
+          onPress: () => {
+            return
+          },
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: async () => {
+            let res = await dispatch(commentDeletes(id))
+
+            isLoading && ToastAndroid.show('deleting...!', ToastAndroid.SHORT)
+
+            if (res.payload) {
+              await dispatch(loadComments({ post_id: post.id }))
+              ToastAndroid.show('has been deleted!', ToastAndroid.SHORT)
+            }
+          },
+        },
+      ])
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const submit = async () => {
-    console.log('click')
     if (comment.trim() === '') {
       return
     }
@@ -67,11 +101,13 @@ const Detail = ({ route, navigation }) => {
       content: comment,
     }
     let res = await dispatch(addNewComment(data))
+    isLoading && ToastAndroid.show('loading...!', ToastAndroid.SHORT)
+
     if (res.payload) {
       setComment('')
       await dispatch(loadComments({ post_id: post.id }))
+      ToastAndroid.show('commented!', ToastAndroid.SHORT)
     }
-    console.log(data, 'hihi')
   }
   const onChangeText = (value) => {
     setComment(value)
@@ -130,26 +166,25 @@ const Detail = ({ route, navigation }) => {
         {datacmt && (
           <>
             <MenuProvider>
-              {datacmt.map((val, key) => (
-                <>
-                {
-                  val.created_by_id === userData.id ?
-                  <Menu key={key}>
-                  <MenuTrigger>
-                    <Comment data={val} />
-                  </MenuTrigger>
-                  <MenuOptions customStyles={{width:40}}>
-                    <MenuOption onSelect={() => alert(`Save`)} text="Sửa" />
-                    <MenuOption onSelect={() => alert(`Delete`)} text="Xóa" />
-                  </MenuOptions>
-                  
-                </Menu>
-                  :
-                  <Comment key={key} data={val} />
-
-              }
-                </>
-              ))}
+              {datacmt
+                ?.filter((e) => e.post_id === post.id)
+                ?.map((val, key) => (
+                  <>
+                    {val.created_by_id === userData.id ? (
+                      <Menu key={key}>
+                        <MenuTrigger>
+                          <Comment data={val} />
+                        </MenuTrigger>
+                        <MenuOptions>
+                          <MenuOption onSelect={() => alert(`Save`)} text="Sửa" />
+                          <MenuOption onSelect={(e) => onDelCmt(val.id)} text="Xóa" />
+                        </MenuOptions>
+                      </Menu>
+                    ) : (
+                      <Comment key={key} data={val} />
+                    )}
+                  </>
+                ))}
             </MenuProvider>
           </>
         )}

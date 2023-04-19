@@ -9,6 +9,7 @@ const initialState = {
 // loadData comment
 export const loadComments = createAsyncThunk('comment/loadcomment', async (body) => {
   const res = await fetchApi(`/api/v1/comment/find`, 'post', body)
+  console.log('saas', res)
   if (res.status == 200) {
     return await res.data
   }
@@ -19,7 +20,6 @@ export const loadComments = createAsyncThunk('comment/loadcomment', async (body)
 export const addNewComment = createAsyncThunk('comment/addNewcomment', async (body) => {
   const response = await fetchApi('/api/v1/comment', 'post', body)
   if (response.status == 200 || response.status === 201) {
-    
     return await response.data
   }
   return await res.json()
@@ -27,7 +27,7 @@ export const addNewComment = createAsyncThunk('comment/addNewcomment', async (bo
 
 //delete comment
 export const commentDeletes = createAsyncThunk('comment/delete', async (body) => {
-  const res = await fetchApi('/commentDelete', 'comment', body)
+  const res = await fetchApi(`/api/v1/comment/${body}`, 'delete')
   if (res.status == 200) {
     return await res.data
   }
@@ -56,7 +56,6 @@ const CommentReducer = createSlice({
         state.haserr = false
       })
       .addCase(loadComments.fulfilled, (state, action) => {
-        console.log('hihi',action.payload)
         state.commentData = action.payload
       })
       .addCase(loadComments.rejected, (state, action) => {
@@ -70,6 +69,7 @@ export const {} = CommentReducer.actions
 
 export const commentData = (state) => state.commentReducer.commentData
 
-export const selectcommentById = (state, commentId) => state.commentReducer.commentData.find((comment) => comment.id === commentId)
+export const selectcommentById = (state, commentId) =>
+  state.commentReducer.commentData.find((comment) => comment.id === commentId)
 export const isloading = (state) => state.commentReducer.isloading
 export default CommentReducer.reducer

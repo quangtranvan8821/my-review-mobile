@@ -43,7 +43,7 @@ const SignIn = ({ navigation }) => {
         <View className="w-full flex items-center ">
           <View className="w-4/5 h-14 p-3 m-5 border-2 flex-row items-center border-purple rounded-3xl border-color-primary">
             <TextInput
-              className='w-full'
+              className="w-full"
               id
               onChangeText={(e) => setUser(e)}
               value={user}
@@ -53,18 +53,17 @@ const SignIn = ({ navigation }) => {
           </View>
 
           <View className="w-4/5 h-14 p-3 m-5 border-2 flex-row items-center border-purple rounded-3xl border-color-primary">
-
             <TextInput
               className="w-full"
-            onChangeText={(e) => setPsw(e)}
-            value={psw}
-            textContentType="newPassword"
-            name="password"
-            placeholder="Enter Password"
-            autoCapitalize="none"
-            secureTextEntry
-            enablesReturnKeyAutomatically
-          />
+              onChangeText={(e) => setPsw(e)}
+              value={psw}
+              textContentType="newPassword"
+              name="password"
+              placeholder="Enter Password"
+              autoCapitalize="none"
+              secureTextEntry
+              enablesReturnKeyAutomatically
+            />
           </View>
         </View>
 

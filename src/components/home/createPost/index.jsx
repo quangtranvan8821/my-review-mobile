@@ -12,6 +12,7 @@ import {
   Dimensions,
   ScrollView,
   TouchableOpacity,
+  ToastAndroid,
 } from 'react-native'
 import { useState, useEffect, memo } from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons'
@@ -20,7 +21,7 @@ import FbGrid from 'react-native-fb-image-grid'
 
 import { onPicker } from '../../../utils/ImageUpload'
 import { useSelector, useDispatch } from 'react-redux'
-import { addNewPost } from '../../../redux/post/postReducer'
+import { addNewPost, isloading } from '../../../redux/post/postReducer'
 import { fetchApiUpload } from '../../../lib/fetchAPI'
 
 const CreatePost = ({ navigation }) => {
@@ -31,7 +32,7 @@ const CreatePost = ({ navigation }) => {
   const [image, setImage] = useState([])
   const [listImage, setListImage] = useState([])
   const inputAccessoryViewID = 'id'
-
+  let isLoading = useSelector(isloading)
   const isFocused = useIsFocused()
   useEffect(() => {
     setImage(image)
@@ -63,23 +64,36 @@ const CreatePost = ({ navigation }) => {
         },
         style: 'cancel',
       },
-      { text: 'OK', onPress: () => navigation.navigate('My Review') },
+      {
+        text: 'OK',
+        onPress: () => {
+          setImage([])
+          onChangeText('')
+          navigation.navigate('My Review')
+        },
+      },
     ])
   }
   const handleNewPost = async () => {
     try {
-      await uploadImage()
-      const newPost = {
+      if (image.length > 0) {
+        await uploadImage()
+      }
+      let newPost = {
         name,
         content,
-        medias: listImage,
+      }
+      if (listImage.length > 0) {
+        newPost = { ...newPost, medias: listImage }
       }
       const res = await dispatch(addNewPost(newPost))
-
+      isLoading && ToastAndroid.show('creating..', ToastAndroid.TOP)
       if (res.payload) {
         setName('')
         onChangeText('')
+
         navigation.replace('home')
+        ToastAndroid.show('done!', ToastAndroid.TOP)
       }
     } catch (error) {
       console.log(error)
@@ -92,7 +106,7 @@ const CreatePost = ({ navigation }) => {
       Alert.alert('Cancel ', 'Are you sure?', [
         {
           text: 'Cancel',
-          onPress: () => console.log(navigation.jumpTo('Create post')),
+          onPress: () => {},
           style: 'cancel',
         },
         {

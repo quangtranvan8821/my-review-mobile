@@ -1,4 +1,4 @@
-import {  Text, View, SafeAreaView, StatusBar, Image } from 'react-native'
+import { Text, View, SafeAreaView, StatusBar, Image } from 'react-native'
 import * as Store from 'expo-secure-store'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -40,9 +40,11 @@ const Profile = ({ navigation }) => {
       <View className="flex flex-row items-center justify-center bg-slate-400 w-full h-16  px-3">
         <Text className="text-2xl">Settings</Text>
       </View>
-      <View className="w-full flex mt-9 
-      items-center">
-        <Button containerStyle={{width:"40%"}} title="logout" onPress={signOut} />
+      <View
+        className="w-full flex mt-9 
+      items-center"
+      >
+        <Button containerStyle={{ width: '40%' }} title="logout" onPress={signOut} />
       </View>
     </SafeAreaView>
   )

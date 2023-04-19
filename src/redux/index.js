@@ -8,7 +8,7 @@ export default store = configureStore({
     authReducer: AuthReducer,
     postReducer: PostReducer,
     profileReducer: ProfileReducer,
-    commentReducer:CommentReducer
+    commentReducer: CommentReducer,
   },
 
   middleware: (getDefaultMiddleware) =>
