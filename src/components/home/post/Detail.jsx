@@ -16,6 +16,7 @@ import {
 } from '../../../redux/post/commentReducer.js'
 import { MenuProvider, Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu'
 import { profile } from '../../../redux/profile/reducer.js'
+import { Skeleton } from '@rneui/themed'
 const Detail = ({ route, navigation }) => {
   const dispatch = useDispatch()
   const post = route.params
@@ -49,9 +50,9 @@ const Detail = ({ route, navigation }) => {
 
   const onClose = () => {
     try {
-      Alert.alert('Cancel ', 'Are you sure?', [
+      Alert.alert('My Review ', 'Bạn có chắc chắn muốn thoát?', [
         {
-          text: 'Cancel',
+          text: 'Hủy',
           onPress: () => {
             return
           },
@@ -65,9 +66,9 @@ const Detail = ({ route, navigation }) => {
   }
   const onDelCmt = async (id) => {
     try {
-      Alert.alert('Cancel ', 'Are you sure?', [
+      Alert.alert('My Review ', 'Bạn chắc chắn muốn xóa?', [
         {
-          text: 'Cancel',
+          text: 'Hủy',
           onPress: () => {
             return
           },
@@ -78,11 +79,11 @@ const Detail = ({ route, navigation }) => {
           onPress: async () => {
             let res = await dispatch(commentDeletes(id))
 
-            isLoading && ToastAndroid.show('deleting...!', ToastAndroid.SHORT)
+            isLoading && ToastAndroid.show('Đang xóa!', ToastAndroid.SHORT)
 
             if (res.payload) {
               await dispatch(loadComments({ post_id: post.id }))
-              ToastAndroid.show('has been deleted!', ToastAndroid.SHORT)
+              ToastAndroid.show('Xóa thành công!', ToastAndroid.SHORT)
             }
           },
         },
@@ -101,17 +102,65 @@ const Detail = ({ route, navigation }) => {
       content: comment,
     }
     let res = await dispatch(addNewComment(data))
-    isLoading && ToastAndroid.show('loading...!', ToastAndroid.SHORT)
+    isLoading && ToastAndroid.show('Đang gửi!', ToastAndroid.SHORT)
 
     if (res.payload) {
       setComment('')
       await dispatch(loadComments({ post_id: post.id }))
-      ToastAndroid.show('commented!', ToastAndroid.SHORT)
+      ToastAndroid.show('Đã bình luận!', ToastAndroid.SHORT)
     }
   }
   const onChangeText = (value) => {
     setComment(value)
   }
+  const SkeketonList = () => (
+    <View>
+      <View className="flex flex-row items-center justify-center mb-2 ">
+        <Skeleton circle width={53} height={53} style={{ marginRight: 4 }} animation="wave" />
+        <Skeleton width={'83%'} height={65} animation="wave" style={{ borderRadius: 10 }} />
+      </View>
+      <View className="flex flex-row items-center justify-center mb-2 ">
+        <Skeleton circle width={53} height={53} style={{ marginRight: 4 }} animation="wave" />
+        <Skeleton width={'83%'} height={65} animation="wave" style={{ borderRadius: 10 }} />
+      </View>
+      <View className="flex flex-row items-center justify-center mb-2 ">
+        <Skeleton circle width={53} height={53} style={{ marginRight: 4 }} animation="wave" />
+        <Skeleton width={'83%'} height={65} animation="wave" style={{ borderRadius: 10 }} />
+      </View>
+      <View className="flex flex-row items-center justify-center mb-2 ">
+        <Skeleton circle width={53} height={53} style={{ marginRight: 4 }} animation="wave" />
+        <Skeleton width={'83%'} height={65} animation="wave" style={{ borderRadius: 10 }} />
+      </View>
+      <View className="flex flex-row items-center justify-center mb-2 ">
+        <Skeleton circle width={53} height={53} style={{ marginRight: 4 }} animation="wave" />
+        <Skeleton width={'83%'} height={65} animation="wave" style={{ borderRadius: 10 }} />
+      </View>
+      <View className="flex flex-row items-center justify-center mb-2 ">
+        <Skeleton circle width={53} height={53} style={{ marginRight: 4 }} animation="wave" />
+        <Skeleton width={'83%'} height={65} animation="wave" style={{ borderRadius: 10 }} />
+      </View>
+      <View className="flex flex-row items-center justify-center mb-2 ">
+        <Skeleton circle width={53} height={53} style={{ marginRight: 4 }} animation="wave" />
+        <Skeleton width={'83%'} height={65} animation="wave" style={{ borderRadius: 10 }} />
+      </View>
+      <View className="flex flex-row items-center justify-center mb-2 ">
+        <Skeleton circle width={53} height={53} style={{ marginRight: 4 }} animation="wave" />
+        <Skeleton width={'83%'} height={65} animation="wave" style={{ borderRadius: 10 }} />
+      </View>
+      <View className="flex flex-row items-center justify-center mb-2 ">
+        <Skeleton circle width={53} height={53} style={{ marginRight: 4 }} animation="wave" />
+        <Skeleton width={'83%'} height={65} animation="wave" style={{ borderRadius: 10 }} />
+      </View>
+      <View className="flex flex-row items-center justify-center mb-2 ">
+        <Skeleton circle width={53} height={53} style={{ marginRight: 4 }} animation="wave" />
+        <Skeleton width={'83%'} height={65} animation="wave" style={{ borderRadius: 10 }} />
+      </View>
+      <View className="flex flex-row items-center justify-center mb-2 ">
+        <Skeleton circle width={53} height={53} style={{ marginRight: 4 }} animation="wave" />
+        <Skeleton width={'83%'} height={65} animation="wave" style={{ borderRadius: 10 }} />
+      </View>
+    </View>
+  )
   return (
     <ScrollView className="p-2 bg-white">
       <View className=" flex rounded-lg w-full">
@@ -163,6 +212,7 @@ const Detail = ({ route, navigation }) => {
             <Ionicons name="send" size={35} color="#644AB5" />
           </TouchableOpacity>
         </View>
+        {isLoading && <SkeketonList />}
         {datacmt && (
           <>
             <MenuProvider>

@@ -56,9 +56,9 @@ const CreatePost = ({ navigation }) => {
     }
   }
   const onClose = () => {
-    Alert.alert('Cancel ', 'Are you sure?', [
+    Alert.alert('Hủy ', 'Dũ liệu đang nhập sẽ bị xóa, Bạn chắc chắn muốn thoát?', [
       {
-        text: 'Cancel',
+        text: 'Hủy',
         onPress: () => {
           return
         },
@@ -87,13 +87,13 @@ const CreatePost = ({ navigation }) => {
         newPost = { ...newPost, medias: listImage }
       }
       const res = await dispatch(addNewPost(newPost))
-      isLoading && ToastAndroid.show('creating..', ToastAndroid.TOP)
+      isLoading && ToastAndroid.show('Đang tạo bài viết...', ToastAndroid.TOP)
       if (res.payload) {
         setName('')
         onChangeText('')
 
         navigation.replace('home')
-        ToastAndroid.show('done!', ToastAndroid.TOP)
+        ToastAndroid.show('Thành công!', ToastAndroid.TOP)
       }
     } catch (error) {
       console.log(error)
@@ -103,9 +103,9 @@ const CreatePost = ({ navigation }) => {
   useEffect(() => {
     isFocused === false &&
       (content.length > 0 || image.length > 0) &&
-      Alert.alert('Cancel ', 'Are you sure?', [
+      Alert.alert('Hủy', 'Dũ liệu đang nhập sẽ bị xóa, Bạn chắc chắn muốn thoát?', [
         {
-          text: 'Cancel',
+          text: 'Hủy',
           onPress: () => {},
           style: 'cancel',
         },

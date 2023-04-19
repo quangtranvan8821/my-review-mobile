@@ -46,6 +46,7 @@ const CommentReducer = createSlice({
       })
       .addCase(addNewComment.fulfilled, (state, action) => {
         state.commentData.push(action.payload)
+        state.isloading = false
       })
       .addCase(addNewComment.rejected, (state, action) => {
         state.isloading = false
@@ -57,6 +58,7 @@ const CommentReducer = createSlice({
       })
       .addCase(loadComments.fulfilled, (state, action) => {
         state.commentData = action.payload
+        state.isloading = false
       })
       .addCase(loadComments.rejected, (state, action) => {
         state.isloading = false

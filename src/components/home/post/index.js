@@ -23,7 +23,7 @@ const ScrollHome = ({ navigation }) => {
   const onRefresh = useCallback(() => {
     dispatch(loadPosts())
     setRefreshing(isLoading)
-    isLoading == false && ToastAndroid.show('newsfeed updated!', ToastAndroid.TOP)
+    isLoading == false && ToastAndroid.show('tin tức đã được cập nhật!', ToastAndroid.TOP)
   }, [])
 
   async function goDetail(params) {
@@ -38,9 +38,9 @@ const ScrollHome = ({ navigation }) => {
   }, [dispatch])
   const onDelPost = async (id) => {
     try {
-      Alert.alert('Cancel ', 'Are you sure?', [
+      Alert.alert('My Review ', 'Bạn chắc chắn muốn xóa?', [
         {
-          text: 'Cancel',
+          text: 'Hủy',
           onPress: () => {
             return
           },
@@ -51,11 +51,11 @@ const ScrollHome = ({ navigation }) => {
           onPress: async () => {
             let res = await dispatch(postDeletes(id))
 
-            isLoading && ToastAndroid.show('deleting...!', ToastAndroid.SHORT)
+            isLoading && ToastAndroid.show('Đang xóa!', ToastAndroid.SHORT)
 
             if (res.payload) {
               await dispatch(loadPosts())
-              ToastAndroid.show('has been deleted!', ToastAndroid.SHORT)
+              ToastAndroid.show('Xóa thành công', ToastAndroid.SHORT)
             }
           },
         },
